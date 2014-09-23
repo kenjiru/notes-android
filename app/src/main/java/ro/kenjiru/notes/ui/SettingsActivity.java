@@ -10,7 +10,7 @@ import java.util.Map;
 
 import ro.kenjiru.notes.R;
 
-public class Settings extends PreferenceActivity implements OnSharedPreferenceChangeListener {
+public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
     public static final String NOTES_FOLDER = "pref_notesFolder";
     @Override
     public void onCreate(Bundle savedInstanceState) {

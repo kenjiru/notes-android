@@ -7,12 +7,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import ro.kenjiru.notes.R;
 
 
-public class Notes extends Activity {
+public class NotesActivity extends Activity {
     private static final int RESULT_SETTINGS = 1;
 
     @Override
@@ -40,7 +39,7 @@ public class Notes extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Intent i = new Intent(this, Settings.class);
+            Intent i = new Intent(this, SettingsActivity.class);
             startActivityForResult(i, RESULT_SETTINGS);
         }
         return super.onOptionsItemSelected(item);
@@ -64,10 +63,10 @@ public class Notes extends Activity {
 
         StringBuilder builder = new StringBuilder();
 
-        builder.append("Notes folder: " + sharedPrefs.getString(Settings.NOTES_FOLDER, "NULL"));
+        builder.append("Notes folder: " + sharedPrefs.getString(SettingsActivity.NOTES_FOLDER, "NULL"));
 
-        TextView settingsTextView = (TextView) findViewById(R.id.outputText);
-
-        settingsTextView.setText(builder.toString());
+//        TextView settingsTextView = (TextView) findViewById(R.id.outputText);
+//
+//        settingsTextView.setText(builder.toString());
     }
 }
