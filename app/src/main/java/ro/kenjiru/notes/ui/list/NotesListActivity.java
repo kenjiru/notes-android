@@ -7,6 +7,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import ro.kenjiru.notes.R;
+import ro.kenjiru.notes.model.Note;
 
 public class NotesListActivity extends Activity {
 
@@ -15,20 +16,20 @@ public class NotesListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listviewactivity);
 
-        ArrayList<String> list = getNotesList();
-        ThumbnailArrayAdapter adapter = new ThumbnailArrayAdapter(this, R.layout.list_row, list);
+        ArrayList<Note> list = getNotesList();
+        NotesArrayAdapter adapter = new NotesArrayAdapter(this, R.layout.list_row, list);
 
         ListView listview = (ListView) findViewById(R.id.listview);
         listview.setAdapter(adapter);
     }
 
-    private ArrayList<String> getNotesList() {
+    private ArrayList<Note> getNotesList() {
         String[] values = new String[] { "Introduction", "Shopping List", "Todo", "Using Dropbox",
                 "Price details", "Coffee", "Movie list", "JavaScript tutorial", "CSS layout howto" };
 
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<Note> list = new ArrayList<Note>();
         for (String value : values) {
-            list.add(value);
+            list.add(new Note(value, "A slightly longer description."));
         }
         return list;
     }

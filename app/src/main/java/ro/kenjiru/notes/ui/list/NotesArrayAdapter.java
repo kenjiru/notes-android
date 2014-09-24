@@ -11,15 +11,16 @@ import android.widget.TextView;
 import java.util.List;
 
 import ro.kenjiru.notes.R;
+import ro.kenjiru.notes.model.Note;
 
 /**
 * Created by radu on 24.09.14.
 */
-class ThumbnailArrayAdapter extends ArrayAdapter<String> {
+class NotesArrayAdapter extends ArrayAdapter<Note> {
     private static LayoutInflater inflater=null;
-    private List<String> items = null;
+    private List<Note> items = null;
 
-    public ThumbnailArrayAdapter(Context context, int textViewResourceId, List<String> objects) {
+    public NotesArrayAdapter(Context context, int textViewResourceId, List<Note> objects) {
         super(context, textViewResourceId, objects);
 
         this.items = objects;
@@ -41,9 +42,11 @@ class ThumbnailArrayAdapter extends ArrayAdapter<String> {
         TextView title = (TextView) convertView.findViewById(R.id.title);
         TextView description = (TextView) convertView.findViewById(R.id.description);
 
+        Note note = this.items.get(position);
+
         thumbnail.setImageResource(R.drawable.ic_launcher);
-        title.setText(this.items.get(position));
-        description.setText("bar");
+        title.setText(note.getTitle());
+        description.setText(note.getShortDescription());
 
         return convertView;
     }
