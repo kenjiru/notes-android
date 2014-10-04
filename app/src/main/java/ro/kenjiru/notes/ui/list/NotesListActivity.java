@@ -25,7 +25,7 @@ public class NotesListActivity extends Activity {
 
     private void setAdapter() {
         ArrayList<Note> list = getNotesList();
-        NotesArrayAdapter adapter = new NotesArrayAdapter(this, R.layout.list_row, list);
+        NotesArrayAdapter adapter = new NotesArrayAdapter(this, list);
 
         ListView listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(adapter);
