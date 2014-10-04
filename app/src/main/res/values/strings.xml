@@ -4,9 +4,8 @@
     <string name="app_name">notes</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
     <string name="pref_notesFolder">Notes folder</string>
     <string name="pref_notesFolder_default">/mnt/sdcard/notes/</string>
     <string name="filter_button">Filter</string>
-    <string name="list_view_activity">List View Example</string>
+    <string name="notes_list_activity">List View Example</string>
 </resources>
