@@ -8,7 +8,11 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,8 +32,27 @@ public class NotesListActivity extends Activity {
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+        setClickListener();
         setAdapter();
         setScrollListener();
+    }
+
+    private void setClickListener() {
+        ListView listView = (ListView) findViewById(R.id.listview);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+
+                TextView itemTitle = (TextView) view.findViewById(R.id.title);
+                String item = itemTitle.getText().toString();
+
+                Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
+
+            }
+        });
+
     }
 
     private void setAdapter() {
