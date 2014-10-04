@@ -17,7 +17,7 @@ public class NotesListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listviewactivity);
+        setContentView(R.layout.activity_notes_list);
 
         setAdapter();
         setScrollListener();
