@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
+import ro.kenjiru.notes.ui.NoteViewActivity;
 import ro.kenjiru.notes.ui.SettingsActivity;
 
 public class NotesListActivity extends Activity {
@@ -45,11 +46,8 @@ public class NotesListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
 
-                TextView itemTitle = (TextView) view.findViewById(R.id.title);
-                String item = itemTitle.getText().toString();
-
-                Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
-
+                Note entry = (Note) parent.getItemAtPosition(position);
+                Toast.makeText(getBaseContext(), entry.getTitle(), Toast.LENGTH_LONG).show();
             }
         });
 
