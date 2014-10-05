@@ -8,4 +8,6 @@
     <string name="pref_notesFolder_default">/mnt/sdcard/notes/</string>
     <string name="filter_button">Filter</string>
     <string name="notes_list_activity">List View Example</string>
+    <string name="note_view_activity">Note View</string>
+
 </resources>

@@ -24,7 +24,7 @@ class NotesArrayAdapter extends BaseAdapter {
     private List<Note> items = null;
 
     public static final int VIEW_TYPE_LOADING = 0;
-    public static final int VIEW_TYPE_ACTIVITY = 1;
+    public static final int VIEW_TYPE_ROW = 1;
 
     private static final int serverListSize = 20;
 
@@ -49,10 +49,10 @@ class NotesArrayAdapter extends BaseAdapter {
             return getFooterView(position, convertView, parent);
         }
 
-        return getDataView(position, convertView, parent);
+        return getRowView(position, convertView, parent);
     };
 
-    public View getDataView(int position, View convertView, ViewGroup parent) {
+    public View getRowView(int position, View convertView, ViewGroup parent) {
         if(convertView == null) {
             convertView = inflater.inflate(R.layout.list_row, null);
         }
@@ -110,7 +110,7 @@ class NotesArrayAdapter extends BaseAdapter {
     @Override
     public boolean isEnabled(int position) {
 
-        return getItemViewType(position) == VIEW_TYPE_ACTIVITY;
+        return getItemViewType(position) == VIEW_TYPE_ROW;
     }
 
     /**
@@ -136,18 +136,18 @@ class NotesArrayAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         return (position >= items.size()) ? VIEW_TYPE_LOADING
-                : VIEW_TYPE_ACTIVITY;
+                : VIEW_TYPE_ROW;
     }
 
     @Override
     public Note getItem(int position) {
-        return (getItemViewType(position) == VIEW_TYPE_ACTIVITY) ? items.get(position)
+        return (getItemViewType(position) == VIEW_TYPE_ROW) ? items.get(position)
                 : null;
     }
 
     @Override
     public long getItemId(int position) {
-        return (getItemViewType(position) == VIEW_TYPE_ACTIVITY) ? position
+        return (getItemViewType(position) == VIEW_TYPE_ROW) ? position
                 : -1;
     }
 }

@@ -28,6 +28,14 @@
             android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <activity
+            android:name=".ui.NoteViewActivity"
+            android:label="@string/note_view_activity"
+            android:parentActivityName=".ui.list.NotesListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ro.kenjiru.notes.ui.list.NotesListActivity" />
+        </activity>
     </application>
 
 </manifest>

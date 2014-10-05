@@ -45,9 +45,11 @@ public class NotesListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-
                 Note entry = (Note) parent.getItemAtPosition(position);
-                Toast.makeText(getBaseContext(), entry.getTitle(), Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(NotesListActivity.this, NoteViewActivity.class);
+                intent.putExtra("Note", entry);
+                startActivity(intent);
             }
         });
 
