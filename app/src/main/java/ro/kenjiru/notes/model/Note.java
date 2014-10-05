@@ -1,6 +1,8 @@
 package ro.kenjiru.notes.model;
 
-public class Note {
+import java.io.Serializable;
+
+public class Note implements Serializable {
     private String title;
     private String description;
     private final int SHORT_DESCRIPTION_LENGTH = 30;
