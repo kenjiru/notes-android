@@ -10,14 +10,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
 
-/**
-* Created by radu on 24.09.14.
-*/
 class NotesArrayAdapter extends BaseAdapter {
     private Activity activity = null;
     private static LayoutInflater inflater=null;
@@ -28,9 +26,9 @@ class NotesArrayAdapter extends BaseAdapter {
 
     private static final int serverListSize = 20;
 
-    public NotesArrayAdapter(Activity activity, List<Note> list) {
-        this.items = list;
+    public NotesArrayAdapter(Activity activity) {
         this.activity = activity;
+        this.items = new ArrayList<Note>();
 
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -46,11 +44,11 @@ class NotesArrayAdapter extends BaseAdapter {
     @Override
     public  View getView(int position, View convertView, ViewGroup parent){
         if (getItemViewType(position) == VIEW_TYPE_LOADING) {
-            return getFooterView(position, convertView, parent);
+            return getLastRowView(position, convertView, parent);
         }
 
         return getRowView(position, convertView, parent);
-    };
+    }
 
     public View getRowView(int position, View convertView, ViewGroup parent) {
         if(convertView == null) {
@@ -77,8 +75,8 @@ class NotesArrayAdapter extends BaseAdapter {
      * @param parent
      * @return
      */
-    public View getFooterView(int position, View convertView,
-                              ViewGroup parent) {
+    public View getLastRowView(int position, View convertView,
+                               ViewGroup parent) {
         if (position >= serverListSize && serverListSize > 0) {
             // the ListView has reached the last row
             TextView tvLastRow = new TextView(activity);

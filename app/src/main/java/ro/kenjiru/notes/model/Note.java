@@ -1,11 +1,22 @@
 package ro.kenjiru.notes.model;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 import java.io.Serializable;
 
-public class Note implements Serializable {
+@Table(name = "notes")
+public class Note extends Model implements Serializable {
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "description")
     private String description;
+
     private final int SHORT_DESCRIPTION_LENGTH = 30;
+
+    public Note() {}
 
     public Note(String title, String description) {
         this.title = title;
