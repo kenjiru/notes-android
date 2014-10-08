@@ -21,10 +21,13 @@ class NotesAdapter extends BaseAdapter {
     private static LayoutInflater inflater=null;
     private List<Note> items = null;
 
-    public static final int VIEW_TYPE_LOADING = 0;
-    public static final int VIEW_TYPE_ROW = 1;
+    private static final int VIEW_TYPE_COUNT = 3;
 
-    private static final int serverListSize = 20;
+    public static final int VIEW_TYPE_ROW = 0;
+    public static final int VIEW_TYPE_LOADING = 1;
+    public static final int VIEW_TYPE_LAST_ROW = 2;
+
+    private static final int serverListSize = 13;
 
     public NotesAdapter(Activity activity) {
         this.activity = activity;
@@ -38,19 +41,24 @@ class NotesAdapter extends BaseAdapter {
         return true;
     }
 
-    /**
-     *  returns the correct view
-     */
     @Override
     public  View getView(int position, View convertView, ViewGroup parent){
-        if (getItemViewType(position) == VIEW_TYPE_LOADING) {
-            return getLastRowView(position, convertView, parent);
+        switch (getItemViewType(position)) {
+            case VIEW_TYPE_ROW :
+                convertView = handleRowView(position, convertView);
+                break;
+            case VIEW_TYPE_LOADING :
+                convertView = handleLoadingView(position, convertView);
+                break;
+            case VIEW_TYPE_LAST_ROW:
+                convertView = handleLastRowView(position, convertView);
+                break;
         }
 
-        return getRowView(position, convertView, parent);
+        return convertView;
     }
 
-    public View getRowView(int position, View convertView, ViewGroup parent) {
+    private View handleRowView(int position, View convertView) {
         if(convertView == null) {
             convertView = inflater.inflate(R.layout.list_row, null);
         }
@@ -68,27 +76,17 @@ class NotesAdapter extends BaseAdapter {
         return convertView;
     }
 
-    /**
-     * returns a View to be displayed in the last row.
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return
-     */
-    public View getLastRowView(int position, View convertView,
-                               ViewGroup parent) {
-        if (position >= serverListSize && serverListSize > 0) {
-            // the ListView has reached the last row
-            TextView tvLastRow = new TextView(activity);
-
-            tvLastRow.setHint("Reached the last row.");
-            tvLastRow.setGravity(Gravity.CENTER);
-
-            return tvLastRow;
+    private View handleLoadingView(int position, View convertView) {
+        if(convertView == null) {
+            convertView = inflater.inflate(R.layout.list_loading, null);
         }
 
-        if (convertView == null) {
-            convertView = activity.getLayoutInflater().inflate(R.layout.list_loading, parent, false);
+        return convertView;
+    }
+
+    private View handleLastRowView(int position, View convertView) {
+        if(convertView == null) {
+            convertView = inflater.inflate(R.layout.list_last_row, null);
         }
 
         return convertView;
@@ -102,39 +100,32 @@ class NotesAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
-    /**
-     * disable click events on indicating rows
-     */
     @Override
     public boolean isEnabled(int position) {
 
         return getItemViewType(position) == VIEW_TYPE_ROW;
     }
 
-    /**
-     * One type is normal data row, the other type is Progressbar
-     */
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return VIEW_TYPE_COUNT;
     }
 
-    /**
-     * the size of the List plus one, the one is the last row, which displays a Progressbar
-     */
     @Override
     public int getCount() {
         return items.size() + 1;
     }
 
-    /**
-     * return the type of the row,
-     * the last row indicates the user that the ListView is loading more data
-     */
     @Override
     public int getItemViewType(int position) {
-        return (position >= items.size()) ? VIEW_TYPE_LOADING
-                : VIEW_TYPE_ROW;
+        if (position >= items.size()) {
+            if (position >= serverListSize && serverListSize > 0) {
+                return VIEW_TYPE_LAST_ROW;
+            }
+            return VIEW_TYPE_LOADING;
+        }
+
+        return VIEW_TYPE_ROW;
     }
 
     @Override

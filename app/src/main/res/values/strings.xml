@@ -9,5 +9,6 @@
     <string name="filter_button">Filter</string>
     <string name="notes_list_activity">List View Example</string>
     <string name="note_view_activity">Note View</string>
+    <string name="no_more_rows">No more rows available</string>
 
 </resources>
