@@ -11,12 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ro.kenjiru.notes.R;
@@ -27,7 +24,7 @@ import ro.kenjiru.notes.ui.SettingsActivity;
 public class NotesListActivity extends Activity {
     private static final int RESULT_SETTINGS = 1;
 
-    private NotesArrayAdapter adapter;
+    private NotesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +56,7 @@ public class NotesListActivity extends Activity {
     }
 
     private void setAdapter() {
-        NotesArrayAdapter adapter = new NotesArrayAdapter(this);
+        NotesAdapter adapter = new NotesAdapter(this);
 
         ListView listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(adapter);

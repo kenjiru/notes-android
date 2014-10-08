@@ -16,7 +16,7 @@ import java.util.List;
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
 
-class NotesArrayAdapter extends BaseAdapter {
+class NotesAdapter extends BaseAdapter {
     private Activity activity = null;
     private static LayoutInflater inflater=null;
     private List<Note> items = null;
@@ -26,7 +26,7 @@ class NotesArrayAdapter extends BaseAdapter {
 
     private static final int serverListSize = 20;
 
-    public NotesArrayAdapter(Activity activity) {
+    public NotesAdapter(Activity activity) {
         this.activity = activity;
         this.items = new ArrayList<Note>();
 
