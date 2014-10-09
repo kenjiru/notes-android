@@ -2,7 +2,6 @@ package ro.kenjiru.notes.ui.list;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import ro.kenjiru.notes.model.Note;
 
 class NotesAdapter extends BaseAdapter {
     private Activity activity = null;
-    private static LayoutInflater inflater=null;
     private List<Note> items = null;
 
     private static final int VIEW_TYPE_COUNT = 3;
@@ -32,8 +30,6 @@ class NotesAdapter extends BaseAdapter {
     public NotesAdapter(Activity activity) {
         this.activity = activity;
         this.items = new ArrayList<Note>();
-
-        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -45,22 +41,22 @@ class NotesAdapter extends BaseAdapter {
     public  View getView(int position, View convertView, ViewGroup parent){
         switch (getItemViewType(position)) {
             case VIEW_TYPE_ROW :
-                convertView = handleRowView(position, convertView);
+                convertView = handleRowView(position, convertView, parent);
                 break;
             case VIEW_TYPE_LOADING :
-                convertView = handleLoadingView(position, convertView);
+                convertView = handleLoadingView(convertView, parent);
                 break;
             case VIEW_TYPE_LAST_ROW:
-                convertView = handleLastRowView(position, convertView);
+                convertView = handleLastRowView(convertView, parent);
                 break;
         }
 
         return convertView;
     }
 
-    private View handleRowView(int position, View convertView) {
+    private View handleRowView(int position, View convertView, ViewGroup parent) {
         if(convertView == null) {
-            convertView = inflater.inflate(R.layout.list_row, null);
+            convertView = getInflater().inflate(R.layout.list_row, parent, false);
         }
 
         ImageView thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
@@ -76,20 +72,24 @@ class NotesAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private View handleLoadingView(int position, View convertView) {
+    private View handleLoadingView(View convertView, ViewGroup parent) {
         if(convertView == null) {
-            convertView = inflater.inflate(R.layout.list_loading, null);
+            convertView = getInflater().inflate(R.layout.list_loading, parent, false);
         }
 
         return convertView;
     }
 
-    private View handleLastRowView(int position, View convertView) {
+    private View handleLastRowView(View convertView, ViewGroup parent) {
         if(convertView == null) {
-            convertView = inflater.inflate(R.layout.list_last_row, null);
+            convertView = getInflater().inflate(R.layout.list_last_row, parent, false);
         }
 
         return convertView;
+    }
+
+    private LayoutInflater getInflater() {
+        return (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public void addAll(List<Note> newNotes) {
