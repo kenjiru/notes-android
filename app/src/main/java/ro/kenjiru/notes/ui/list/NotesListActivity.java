@@ -1,6 +1,6 @@
 package ro.kenjiru.notes.ui.list;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.activeandroid.query.Select;
@@ -21,10 +22,8 @@ import ro.kenjiru.notes.model.Note;
 import ro.kenjiru.notes.ui.NoteViewActivity;
 import ro.kenjiru.notes.ui.SettingsActivity;
 
-public class NotesListActivity extends Activity {
+public class NotesListActivity extends ListActivity  {
     private static final int RESULT_SETTINGS = 1;
-
-    private NotesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +32,13 @@ public class NotesListActivity extends Activity {
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        setClickListener();
         setAdapter();
+        setClickListener();
         setScrollListener();
     }
 
     private void setClickListener() {
-        ListView listView = (ListView) findViewById(R.id.listview);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
@@ -56,18 +53,12 @@ public class NotesListActivity extends Activity {
     }
 
     private void setAdapter() {
-        NotesAdapter adapter = new NotesAdapter(this);
-
-        ListView listView = (ListView) findViewById(R.id.listview);
-        listView.setAdapter(adapter);
-
-        this.adapter = adapter;
+        ListAdapter listAdapter = new NotesAdapter(this);
+        setListAdapter(listAdapter);
     }
 
     private void setScrollListener() {
-        ListView listView = (ListView) findViewById(R.id.listview);
-
-        listView.setOnScrollListener(new EndlessScrollListener() {
+        getListView().setOnScrollListener(new EndlessScrollListener() {
             @Override
             public void onLoadMore(final int page, int totalItemsCount) {
                 // Triggered only when new data needs to be appended to the list
@@ -80,7 +71,7 @@ public class NotesListActivity extends Activity {
                         // Do something after 5s = 5000ms
                         loadMoreData(page);
                     }
-                }, 5000);
+                }, 500);
             }
         });
     }
@@ -89,11 +80,12 @@ public class NotesListActivity extends Activity {
         List<Note> notes = new Select()
                 .from(Note.class)
                 .orderBy("title ASC")
-                .offset(page*3)
+                .offset((page-2)*3)
                 .limit(3)
                 .execute();
 
-        adapter.addAll(notes);
+        NotesAdapter listAdapter = (NotesAdapter) getListAdapter();
+        listAdapter.addAll(notes);
     }
 
     @Override
