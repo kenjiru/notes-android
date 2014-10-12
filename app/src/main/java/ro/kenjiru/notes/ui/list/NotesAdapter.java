@@ -12,13 +12,17 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
 
 class NotesAdapter extends ArrayAdapter<Note> {
-    public NotesAdapter(Context context) {
-        super(context, R.layout.list_row, new ArrayList<Note>());
+    private final List<Note> notes;
+
+    public NotesAdapter(Context context, List<Note> notes) {
+        super(context, R.layout.list_row, notes);
+        this.notes = notes;
     }
 
     @Override
@@ -38,6 +42,10 @@ class NotesAdapter extends ArrayAdapter<Note> {
         description.setText(note.getShortDescription());
 
         return convertView;
+    }
+
+    public List<Note> getAllItems() {
+        return notes;
     }
 
     private LayoutInflater getInflater() {
