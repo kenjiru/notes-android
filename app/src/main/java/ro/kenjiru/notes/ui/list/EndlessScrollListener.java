@@ -3,16 +3,19 @@ package ro.kenjiru.notes.ui.list;
 import android.widget.AbsListView;
 
 public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
-    private int visibleThreshold = 3;
+    private int itemsPerPage;
     private int currentPage = -1;
+
+    private int visibleThreshold = 3;
     private int previousTotalItemCount = -1;
     private boolean loading = true;
 
-    public EndlessScrollListener() {
-    }
+    public EndlessScrollListener(int itemsPerPage, int totalItemCount) {
+        this.itemsPerPage = itemsPerPage;
 
-    public EndlessScrollListener(int visibleThreshold) {
-        this.visibleThreshold = visibleThreshold;
+        if (totalItemCount > 0) {
+            this.currentPage = totalItemCount / itemsPerPage;
+        }
     }
 
     // This happens many times a second during a scroll, so be wary of the code you place here.
@@ -38,5 +41,9 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         // Don't take any action on changed
+    }
+
+    public int getItemsPerPage() {
+        return itemsPerPage;
     }
 }

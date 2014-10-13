@@ -29,6 +29,7 @@ public class NotesListActivity extends ListActivity  {
     private static final int RESULT_SETTINGS = 1;
     private static final String LIST_INSTANCE_STATE = "LIST_INSTANCE_STATE";
     private static final String LIST_ADAPTER_ARRAY = "LIST_ADAPTER_ARRAY";
+    private static final int ITEMS_PER_PAGE = 3;
 
     private boolean stateRestored = false;
 
@@ -116,7 +117,9 @@ public class NotesListActivity extends ListActivity  {
     }
 
     private void setScrollListener() {
-        getListView().setOnScrollListener(new EndlessScrollListener() {
+        int totalItemsCount = getListAdapter().getCount();
+
+        getListView().setOnScrollListener(new EndlessScrollListener(ITEMS_PER_PAGE, totalItemsCount) {
             @Override
             public void onLoadMore(final int page, int totalItemsCount) {
                 // Triggered only when new data needs to be appended to the list
@@ -127,19 +130,19 @@ public class NotesListActivity extends ListActivity  {
                     @Override
                     public void run() {
                         // Do something after 5s = 5000ms
-                        loadMoreData(page);
+                        loadMoreData(page, getItemsPerPage());
                     }
                 }, 1000);
             }
         });
     }
 
-    private void loadMoreData(int page) {
+    private void loadMoreData(int page, int itemsPerPage) {
         List<Note> notes = new Select()
                 .from(Note.class)
                 .orderBy("title ASC")
-                .offset(page*3)
-                .limit(7)
+                .offset(page * itemsPerPage)
+                .limit(itemsPerPage)
                 .execute();
 
         NotesAdapter listAdapter = (NotesAdapter) getListAdapter();
