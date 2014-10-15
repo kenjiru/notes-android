@@ -17,7 +17,7 @@ import java.util.List;
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
 
-class NotesAdapter extends ArrayAdapter<Note> {
+public class NotesAdapter extends ArrayAdapter<Note> {
     private final List<Note> notes;
 
     public NotesAdapter(Context context, List<Note> notes) {

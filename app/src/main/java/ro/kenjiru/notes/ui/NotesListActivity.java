@@ -1,6 +1,8 @@
-package ro.kenjiru.notes.ui.list;
+package ro.kenjiru.notes.ui;
 
 import android.app.ListActivity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.activeandroid.query.Select;
 
@@ -22,8 +25,8 @@ import java.util.List;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
-import ro.kenjiru.notes.ui.NoteViewActivity;
-import ro.kenjiru.notes.ui.SettingsActivity;
+import ro.kenjiru.notes.ui.list.EndlessScrollListener;
+import ro.kenjiru.notes.ui.list.NotesAdapter;
 
 public class NotesListActivity extends ListActivity  {
     private static final int RESULT_SETTINGS = 1;
@@ -152,8 +155,17 @@ public class NotesListActivity extends ListActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.notes, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.notes_list, menu);
+        configureSearchWidget(menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void configureSearchWidget(Menu menu) {
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
     }
 
     @Override
@@ -179,7 +191,6 @@ public class NotesListActivity extends ListActivity  {
                 break;
 
         }
-
     }
 
     private void showAppSettings() {
