@@ -21,14 +21,14 @@ import ro.kenjiru.notes.ui.list.EndlessScrollListener;
 import ro.kenjiru.notes.ui.list.NotesActivity;
 import ro.kenjiru.notes.ui.list.NotesAdapter;
 
-public class NotesListActivity extends NotesActivity {
+public class ListNotesActivity extends NotesActivity {
     private static final int RESULT_SETTINGS = 1;
     private static final int ITEMS_PER_PAGE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes_list);
+        setContentView(R.layout.activity_list_notes);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         setScrollListener();
@@ -70,7 +70,7 @@ public class NotesListActivity extends NotesActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.notes_list, menu);
+        getMenuInflater().inflate(R.menu.list_notes, menu);
         configureSearchWidget(menu);
 
         return super.onCreateOptionsMenu(menu);

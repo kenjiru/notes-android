@@ -9,12 +9,12 @@ import android.widget.TextView;
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
 
-public class NoteViewActivity extends Activity {
+public class ViewNoteActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_note_view);
+        setContentView(R.layout.activity_view_note);
 
         restoreState();
     }
@@ -31,7 +31,7 @@ public class NoteViewActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.note_view, menu);
+        getMenuInflater().inflate(R.menu.view_note, menu);
         return true;
     }
 

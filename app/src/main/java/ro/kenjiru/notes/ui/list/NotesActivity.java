@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import ro.kenjiru.notes.model.Note;
-import ro.kenjiru.notes.ui.NoteViewActivity;
+import ro.kenjiru.notes.ui.ViewNoteActivity;
 
 public class NotesActivity extends ListActivity  {
     private static final String LIST_INSTANCE_STATE = "LIST_INSTANCE_STATE";
@@ -93,7 +93,7 @@ public class NotesActivity extends ListActivity  {
                                     long id) {
                 Note entry = (Note) parent.getItemAtPosition(position);
 
-                Intent intent = new Intent(NotesActivity.this, NoteViewActivity.class);
+                Intent intent = new Intent(NotesActivity.this, ViewNoteActivity.class);
                 intent.putExtra("Note", entry);
                 startActivity(intent);
             }

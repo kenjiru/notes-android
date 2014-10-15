@@ -17,7 +17,7 @@
             android:value="5" />
 
         <activity
-            android:name=".ui.NotesListActivity"
+            android:name=".ui.ListNotesActivity"
             android:label="@string/notes_list_activity"
             android:launchMode="singleTop">
 
@@ -32,9 +32,9 @@
         </activity>
 
         <activity
-            android:name=".ui.NoteViewActivity"
+            android:name=".ui.ViewNoteActivity"
             android:label="@string/note_view_activity"
-            android:parentActivityName=".ui.NotesListActivity" >
+            android:parentActivityName=".ui.ListNotesActivity" >
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
