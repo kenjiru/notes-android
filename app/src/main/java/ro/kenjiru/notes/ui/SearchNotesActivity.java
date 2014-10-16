@@ -17,8 +17,8 @@ import ro.kenjiru.notes.ui.list.NotesAdapter;
 public class SearchNotesActivity extends NotesActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_notes);
+        super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
             handleIntent(getIntent());
