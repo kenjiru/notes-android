@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/thumbnail"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="8dp"/>
     <!-- android:src="@drawable/ic_launcher" -->
