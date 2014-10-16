@@ -44,7 +44,7 @@ public class SearchNotesActivity extends NotesActivity {
 
         List<Note> notes = new Select()
                 .from(Note.class)
-                .where("description LIKE ?", "%" + query + "%")
+                .where("content LIKE ?", "%" + query + "%")
                 .orderBy("title ASC")
                 .execute();
 

@@ -24,8 +24,7 @@ public class ViewNoteActivity extends Activity {
         Note note = (Note) savedInstanceState.getSerializable("Note");
         TextView textView = (TextView) findViewById(R.id.note_description);
 
-        textView.setText(note.getDescription());
-
+        textView.setText(note.getContent());
     }
 
     @Override

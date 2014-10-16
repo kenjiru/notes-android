@@ -11,26 +11,26 @@ public class Note extends Model implements Serializable {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "content")
+    private String content;
 
     private final int SHORT_DESCRIPTION_LENGTH = 30;
 
     public Note() {}
 
-    public Note(String title, String description) {
+    public Note(String title, String content) {
         this.title = title;
-        this.description = description;
+        this.content = content;
     }
 
     public String getShortDescription() {
-        int length = description.length() - 1;
+        int length = content.length() - 1;
 
         if (length > this.SHORT_DESCRIPTION_LENGTH) {
             length = this.SHORT_DESCRIPTION_LENGTH;
         }
 
-        return description.substring(0, length);
+        return content.substring(0, length);
     }
 
     public String getTitle() {
@@ -41,11 +41,11 @@ public class Note extends Model implements Serializable {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setContent(String content) {
+        this.content = content;
     }
 }
