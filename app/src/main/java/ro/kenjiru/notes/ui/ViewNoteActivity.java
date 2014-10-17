@@ -2,12 +2,15 @@ package ro.kenjiru.notes.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
+import ro.kenjiru.notes.ui.viewer.ListTagHandler;
 
 public class ViewNoteActivity extends Activity {
 
@@ -23,8 +26,9 @@ public class ViewNoteActivity extends Activity {
         Bundle savedInstanceState = getIntent().getExtras();
         Note note = (Note) savedInstanceState.getSerializable("Note");
         TextView textView = (TextView) findViewById(R.id.note_description);
+        Spanned fromHtml = Html.fromHtml(note.getContent(), null, new ListTagHandler());
 
-        textView.setText(note.getContent());
+        textView.setText(fromHtml);
     }
 
     @Override
