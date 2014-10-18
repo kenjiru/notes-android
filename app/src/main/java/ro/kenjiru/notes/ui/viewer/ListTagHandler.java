@@ -42,9 +42,19 @@ public class ListTagHandler implements Html.TagHandler {
             markElementStart(output, new Li());
         } else {
             LeadingMarginSpan.Standard leadingMarginSpan = new LeadingMarginSpan.Standard(getLeadingMargin());
-            BulletSpan bulletSpan = new BulletSpan(getBulletMargin());
+            CustomBulletSpan bulletSpan = new CustomBulletSpan(getBulletMargin(), getBulletType());
 
             wrapWithElements(output, Li.class, leadingMarginSpan, bulletSpan);
+        }
+    }
+
+    private CustomBulletSpan.BulletType getBulletType() {
+        if (listLevel % 3 == 1) {
+            return CustomBulletSpan.BulletType.FULL_CIRCLE;
+        } else if (listLevel % 3 == 2) {
+            return CustomBulletSpan.BulletType.EMPTY_CIRCLE;
+        } else {
+            return CustomBulletSpan.BulletType.TRIANGLE;
         }
     }
 
