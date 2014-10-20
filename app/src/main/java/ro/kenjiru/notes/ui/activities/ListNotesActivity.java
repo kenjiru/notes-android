@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui;
+package ro.kenjiru.notes.ui.activities;
 
 import android.app.Activity;
 import android.app.SearchManager;

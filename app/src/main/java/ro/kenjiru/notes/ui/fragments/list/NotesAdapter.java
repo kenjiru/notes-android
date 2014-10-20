@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui.list;
+package ro.kenjiru.notes.ui.fragments.list;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,10 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import ro.kenjiru.notes.R;

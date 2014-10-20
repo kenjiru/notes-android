@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui;
+package ro.kenjiru.notes.ui.activities;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
-import ro.kenjiru.notes.ui.list.NotesFragment;
+import ro.kenjiru.notes.ui.fragments.list.NotesFragment;
 
 public class SearchNotesActivity extends Activity {
     @Override

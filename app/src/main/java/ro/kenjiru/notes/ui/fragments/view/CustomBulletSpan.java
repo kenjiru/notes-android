@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui.viewer;
+package ro.kenjiru.notes.ui.fragments.view;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

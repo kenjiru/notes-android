@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui.list;
+package ro.kenjiru.notes.ui.fragments.list;
 
 import android.widget.AbsListView;
 

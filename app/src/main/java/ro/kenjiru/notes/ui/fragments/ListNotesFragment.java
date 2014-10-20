@@ -2,18 +2,15 @@ package ro.kenjiru.notes.ui.fragments;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.activeandroid.query.Select;
 
 import java.util.List;
 
 import ro.kenjiru.notes.model.Note;
-import ro.kenjiru.notes.ui.list.EndlessScrollListener;
-import ro.kenjiru.notes.ui.list.NotesAdapter;
-import ro.kenjiru.notes.ui.list.NotesFragment;
+import ro.kenjiru.notes.ui.fragments.list.EndlessScrollListener;
+import ro.kenjiru.notes.ui.fragments.list.NotesAdapter;
+import ro.kenjiru.notes.ui.fragments.list.NotesFragment;
 
 public class ListNotesFragment extends NotesFragment {
     private static final int ITEMS_PER_PAGE = 3;

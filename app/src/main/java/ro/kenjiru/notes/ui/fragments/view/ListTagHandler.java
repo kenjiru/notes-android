@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui.viewer;
+package ro.kenjiru.notes.ui.fragments.view;
 
 import android.text.Editable;
 import android.text.Html;

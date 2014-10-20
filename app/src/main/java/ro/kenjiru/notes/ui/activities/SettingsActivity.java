@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui;
+package ro.kenjiru.notes.ui.activities;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;

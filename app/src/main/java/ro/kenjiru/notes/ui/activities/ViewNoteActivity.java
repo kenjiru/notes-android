@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui;
+package ro.kenjiru.notes.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
-import ro.kenjiru.notes.ui.fragments.ViewNoteFragment;
+import ro.kenjiru.notes.ui.fragments.view.ViewNoteFragment;
 
 public class ViewNoteActivity extends Activity {
 

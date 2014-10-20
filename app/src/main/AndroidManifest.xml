@@ -17,7 +17,7 @@
             android:value="5" />
 
         <activity
-            android:name=".ui.ListNotesActivity"
+            android:name=".ui.activities.ListNotesActivity"
             android:label="@string/notes_list_activity"
             android:launchMode="singleTop">
 
@@ -32,9 +32,9 @@
         </activity>
 
         <activity
-            android:name=".ui.ViewNoteActivity"
+            android:name=".ui.activities.ViewNoteActivity"
             android:label="@string/note_view_activity"
-            android:parentActivityName=".ui.ListNotesActivity" >
+            android:parentActivityName=".ui.activities.ListNotesActivity" >
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -42,7 +42,7 @@
         </activity>
 
         <activity
-            android:name=".ui.SearchNotesActivity"
+            android:name=".ui.activities.SearchNotesActivity"
             android:label="@string/search_notes_activity"
             android:launchMode="singleTop">
 
@@ -57,7 +57,7 @@
 
 
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.activities.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
     </application>

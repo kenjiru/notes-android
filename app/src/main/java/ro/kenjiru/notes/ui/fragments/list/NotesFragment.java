@@ -1,13 +1,10 @@
-package ro.kenjiru.notes.ui.list;
+package ro.kenjiru.notes.ui.fragments.list;
 
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -15,9 +12,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
-import ro.kenjiru.notes.ui.ViewNoteActivity;
+import ro.kenjiru.notes.ui.activities.ViewNoteActivity;
 
 public class NotesFragment extends ListFragment {
 

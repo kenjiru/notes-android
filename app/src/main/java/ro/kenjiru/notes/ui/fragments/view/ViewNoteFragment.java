@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui.fragments;
+package ro.kenjiru.notes.ui.fragments.view;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
-import ro.kenjiru.notes.ui.viewer.ListTagHandler;
+import ro.kenjiru.notes.ui.fragments.view.ListTagHandler;
 
 public class ViewNoteFragment extends Fragment {
 

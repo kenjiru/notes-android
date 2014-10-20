@@ -3,15 +3,15 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="ro.kenjiru.notes.ui.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="ro.kenjiru.notes.ui.activities.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 
     <header
-        android:fragment="ro.kenjiru.notes.ui.SettingsActivity$NotificationPreferenceFragment"
+        android:fragment="ro.kenjiru.notes.ui.activities.SettingsActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" />
 
     <header
-        android:fragment="ro.kenjiru.notes.ui.SettingsActivity$DataSyncPreferenceFragment"
+        android:fragment="ro.kenjiru.notes.ui.activities.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" />
 
 </preference-headers>
