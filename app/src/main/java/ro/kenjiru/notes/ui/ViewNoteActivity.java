@@ -1,34 +1,41 @@
 package ro.kenjiru.notes.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
-import ro.kenjiru.notes.ui.viewer.ListTagHandler;
+import ro.kenjiru.notes.ui.fragments.ViewNoteFragment;
 
 public class ViewNoteActivity extends Activity {
+
+    private static final String NOTE = "NOTE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_note);
 
-        restoreState();
+        if (savedInstanceState == null) {
+            handleIntent(getIntent());
+        }
     }
 
-    private void restoreState() {
-        Bundle savedInstanceState = getIntent().getExtras();
-        Note note = (Note) savedInstanceState.getSerializable("Note");
-        TextView textView = (TextView) findViewById(R.id.note_description);
-        Spanned fromHtml = Html.fromHtml(note.getContent(), null, new ListTagHandler());
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
 
-        textView.setText(fromHtml);
+    private void handleIntent(Intent intent) {
+        Bundle savedInstanceState = intent.getExtras();
+        Note note = (Note) savedInstanceState.getSerializable(NOTE);
+        ViewNoteFragment viewNoteFragment = (ViewNoteFragment) getFragmentManager().findFragmentById(R.id.view_note_fragment);
+
+        viewNoteFragment.setNote(note);
     }
 
     @Override

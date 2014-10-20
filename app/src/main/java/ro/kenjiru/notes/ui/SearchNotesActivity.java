@@ -1,9 +1,9 @@
 package ro.kenjiru.notes.ui;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.activeandroid.query.Select;
 
@@ -11,14 +11,13 @@ import java.util.List;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
-import ro.kenjiru.notes.ui.list.NotesActivity;
-import ro.kenjiru.notes.ui.list.NotesAdapter;
+import ro.kenjiru.notes.ui.list.NotesFragment;
 
-public class SearchNotesActivity extends NotesActivity {
+public class SearchNotesActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_search_notes);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_notes);
 
         if (savedInstanceState == null) {
             handleIntent(getIntent());
@@ -40,16 +39,14 @@ public class SearchNotesActivity extends NotesActivity {
     }
 
     private void executeSearch(String query) {
-        Log.println(Log.DEBUG, "search query", query);
-
         List<Note> notes = new Select()
                 .from(Note.class)
                 .where("content LIKE ?", "%" + query + "%")
                 .orderBy("title ASC")
                 .execute();
 
-        NotesAdapter listAdapter = (NotesAdapter) getListAdapter();
-        listAdapter.clear();
-        listAdapter.addAll(notes);
+        NotesFragment notesFragment = (NotesFragment) getFragmentManager().findFragmentById(R.id.list_notes_fragment);
+
+        notesFragment.setNotes(notes);
     }
 }
