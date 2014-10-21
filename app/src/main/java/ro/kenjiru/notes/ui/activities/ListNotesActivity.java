@@ -1,22 +1,68 @@
 package ro.kenjiru.notes.ui.activities;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.widget.SearchView;
 
 import ro.kenjiru.notes.R;
+import ro.kenjiru.notes.intent.Action;
+import ro.kenjiru.notes.intent.Extra;
+import ro.kenjiru.notes.model.Folder;
+import ro.kenjiru.notes.ui.fragments.ListNotesFragment;
 
 public class ListNotesActivity extends Activity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_notes);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        if (savedInstanceState == null) {
+            handleIntent(getIntent());
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        // Get the intent, verify the action and get the query
+        if (Action.FILTER_NOTES.equals(intent.getAction())) {
+            long folderId = intent.getLongExtra(Extra.FOLDER_ID, Folder.ANY_FOLDER);
+            createListNotesFragment(folderId);
+        } else {
+            createNewFragment(Folder.ANY_FOLDER);
+        }
+    }
+
+    private void createListNotesFragment(long folderId) {
+        ListNotesFragment listNotesFragment = (ListNotesFragment) getFragmentManager().findFragmentById(R.id.list_notes_fragment);
+
+        if (listNotesFragment == null || listNotesFragment.getFolderId() != folderId) {
+            createNewFragment(folderId);
+        }
+    }
+
+    private void createNewFragment(long folderId) {
+        ListNotesFragment listNotesFragment = new ListNotesFragment();
+        listNotesFragment.setFolderId(folderId);
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.list_notes_container, listNotesFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

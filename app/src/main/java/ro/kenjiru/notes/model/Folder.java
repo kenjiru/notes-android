@@ -12,6 +12,8 @@ public class Folder extends Model implements Serializable {
     @Column(name = "name")
     private String name;
 
+    public static long ANY_FOLDER = -1;
+
     public Folder() {
     }
 

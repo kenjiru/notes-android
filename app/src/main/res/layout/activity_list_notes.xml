@@ -6,11 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment android:name="ro.kenjiru.notes.ui.fragments.ListNotesFragment"
-        android:id="@+id/list_notes_fragment"
+    <FrameLayout
+        android:id="@+id/list_notes_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white" />
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:id="@+id/left_drawer"

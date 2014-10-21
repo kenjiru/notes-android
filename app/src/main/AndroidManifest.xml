@@ -27,7 +27,7 @@
             </intent-filter>
 
             <intent-filter>
-                <action android:name="ro.kenjiru.notes.intent.Action.FILTER" />
+                <action android:name="ro.kenjiru.notes.intent.Action.FILTER_NOTES" />
             </intent-filter>
 
             <meta-data

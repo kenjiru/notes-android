@@ -3,10 +3,12 @@ package ro.kenjiru.notes.ui.fragments;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
 import java.util.List;
 
+import ro.kenjiru.notes.model.Folder;
 import ro.kenjiru.notes.model.Note;
 import ro.kenjiru.notes.ui.fragments.notes.EndlessScrollListener;
 import ro.kenjiru.notes.ui.fragments.notes.NotesAdapter;
@@ -14,6 +16,8 @@ import ro.kenjiru.notes.ui.fragments.notes.NotesFragment;
 
 public class ListNotesFragment extends NotesFragment {
     private static final int ITEMS_PER_PAGE = 3;
+
+    private long folderId = Folder.ANY_FOLDER;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -44,14 +48,27 @@ public class ListNotesFragment extends NotesFragment {
     }
 
     private void loadMoreData(int page, int itemsPerPage) {
-        List<Note> notes = new Select()
+        From from = new Select()
                 .from(Note.class)
                 .orderBy("title ASC")
                 .offset(page * itemsPerPage)
-                .limit(itemsPerPage)
-                .execute();
+                .limit(itemsPerPage);
+
+        if (folderId != Folder.ANY_FOLDER) {
+            from = from.where("folder = ?", folderId);
+        }
+
+        List<Note> notes = from.execute();
 
         NotesAdapter listAdapter = (NotesAdapter) getListAdapter();
         listAdapter.addAll(notes);
+    }
+
+    public void setFolderId(long folderId) {
+        this.folderId = folderId;
+    }
+
+    public long getFolderId() {
+        return folderId;
     }
 }

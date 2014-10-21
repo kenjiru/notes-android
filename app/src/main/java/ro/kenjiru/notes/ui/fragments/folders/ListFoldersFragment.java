@@ -13,12 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ro.kenjiru.notes.intent.Action;
+import ro.kenjiru.notes.intent.Extra;
 import ro.kenjiru.notes.model.Folder;
 import ro.kenjiru.notes.ui.activities.ListNotesActivity;
 
 public class ListFoldersFragment extends ListFragment {
-
-    private static final String FOLDER = "FOLDER";
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public class ListFoldersFragment extends ListFragment {
                 .orderBy("name ASC")
                 .execute();
 
-        FoldersAdapter listAdapter= (FoldersAdapter) this.getListAdapter();
+        FoldersAdapter listAdapter = (FoldersAdapter) this.getListAdapter();
         listAdapter.addAll(folders);
     }
 
@@ -49,8 +48,8 @@ public class ListFoldersFragment extends ListFragment {
     public void onListItemClick(ListView listView, View view, int position, long id) {
         Folder folder = (Folder) listView.getItemAtPosition(position);
 
-        Intent intent = new Intent(Action.FILTER, null, getActivity(), ListNotesActivity.class);
-        intent.putExtra(FOLDER, folder);
+        Intent intent = new Intent(Action.FILTER_NOTES, null, getActivity(), ListNotesActivity.class);
+        intent.putExtra(Extra.FOLDER_ID, folder.getId());
 
         startActivity(intent);
     }
