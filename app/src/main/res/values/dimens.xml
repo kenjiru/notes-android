@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="title">17dp</dimen>
     <dimen name="description">12dp</dimen>
+    <dimen name="folder_name">16dp</dimen>
+    <dimen name="folder_thumbnail">24dp</dimen>
 </resources>

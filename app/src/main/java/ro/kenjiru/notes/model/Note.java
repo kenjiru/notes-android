@@ -14,6 +14,9 @@ public class Note extends Model implements Serializable {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "folder")
+    private Folder folder;
+
     private final int SHORT_DESCRIPTION_LENGTH = 30;
 
     public Note() {}
@@ -47,5 +50,13 @@ public class Note extends Model implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Folder getFolder() {
+        return folder;
+    }
+
+    public void setFolder(Folder folder) {
+        this.folder = folder;
     }
 }
