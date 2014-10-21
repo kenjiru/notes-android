@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui.fragments.list;
+package ro.kenjiru.notes.ui.fragments.notes;
 
 import android.app.ListFragment;
 import android.content.Intent;

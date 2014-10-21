@@ -11,7 +11,7 @@ import java.util.List;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Note;
-import ro.kenjiru.notes.ui.fragments.list.NotesFragment;
+import ro.kenjiru.notes.ui.fragments.notes.NotesFragment;
 
 public class SearchNotesActivity extends Activity {
     @Override

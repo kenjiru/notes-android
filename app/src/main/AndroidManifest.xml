@@ -26,6 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <intent-filter>
+                <action android:name="ro.kenjiru.notes.intent.Action.FILTER" />
+            </intent-filter>
+
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".ui.SearchNotesActivity" />

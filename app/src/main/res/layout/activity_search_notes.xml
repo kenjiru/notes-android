@@ -2,7 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <fragment android:name="ro.kenjiru.notes.ui.fragments.list.NotesFragment"
+    <fragment android:name="ro.kenjiru.notes.ui.fragments.notes.NotesFragment"
         android:id="@+id/list_notes_fragment"
         android:layout_weight="1"
         android:layout_width="fill_parent"

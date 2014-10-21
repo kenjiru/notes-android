@@ -8,9 +8,9 @@ import com.activeandroid.query.Select;
 import java.util.List;
 
 import ro.kenjiru.notes.model.Note;
-import ro.kenjiru.notes.ui.fragments.list.EndlessScrollListener;
-import ro.kenjiru.notes.ui.fragments.list.NotesAdapter;
-import ro.kenjiru.notes.ui.fragments.list.NotesFragment;
+import ro.kenjiru.notes.ui.fragments.notes.EndlessScrollListener;
+import ro.kenjiru.notes.ui.fragments.notes.NotesAdapter;
+import ro.kenjiru.notes.ui.fragments.notes.NotesFragment;
 
 public class ListNotesFragment extends NotesFragment {
     private static final int ITEMS_PER_PAGE = 3;

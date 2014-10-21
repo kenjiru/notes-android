@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui.fragments.list;
+package ro.kenjiru.notes.ui.fragments.notes;
 
 import android.content.Context;
 import android.view.LayoutInflater;
