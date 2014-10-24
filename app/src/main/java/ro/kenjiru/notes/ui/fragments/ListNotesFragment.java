@@ -17,7 +17,7 @@ import ro.kenjiru.notes.ui.fragments.notes.NotesFragment;
 public class ListNotesFragment extends NotesFragment {
     private static final int ITEMS_PER_PAGE = 3;
 
-    private long folderId = Folder.ANY_FOLDER;
+    private long folderId = Folder.ALL_FOLDERS;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -32,17 +32,17 @@ public class ListNotesFragment extends NotesFragment {
         getListView().setOnScrollListener(new EndlessScrollListener(ITEMS_PER_PAGE, totalItemsCount) {
             @Override
             public void onLoadMore(final int page, int totalItemsCount) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to your AdapterView
+                loadDataAsync(page, getItemsPerPage());
+            }
+        });
+    }
 
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Do something after 5s = 5000ms
-                        loadMoreData(page, getItemsPerPage());
-                    }
-                }, 1000);
+    private void loadDataAsync(final int page, final int itemsPerPage) {
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                loadMoreData(page, itemsPerPage);
             }
         });
     }
@@ -54,7 +54,7 @@ public class ListNotesFragment extends NotesFragment {
                 .offset(page * itemsPerPage)
                 .limit(itemsPerPage);
 
-        if (folderId != Folder.ANY_FOLDER) {
+        if (folderId != Folder.ALL_FOLDERS) {
             from = from.where("folder = ?", folderId);
         }
 
