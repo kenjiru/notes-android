@@ -14,7 +14,7 @@ import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.intent.Action;
 import ro.kenjiru.notes.intent.Extra;
 import ro.kenjiru.notes.model.Folder;
-import ro.kenjiru.notes.ui.fragments.ListNotesFragment;
+import ro.kenjiru.notes.ui.fragments.notes.ListNotesFragment;
 
 public class ListNotesActivity extends Activity {
 

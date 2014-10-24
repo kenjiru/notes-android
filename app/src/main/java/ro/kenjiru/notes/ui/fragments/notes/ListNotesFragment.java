@@ -1,4 +1,4 @@
-package ro.kenjiru.notes.ui.fragments;
+package ro.kenjiru.notes.ui.fragments.notes;
 
 import android.os.Bundle;
 import android.os.Handler;
