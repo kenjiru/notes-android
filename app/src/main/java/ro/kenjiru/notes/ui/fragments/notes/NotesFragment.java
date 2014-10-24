@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import ro.kenjiru.notes.intent.Extra;
 import ro.kenjiru.notes.model.Note;
 import ro.kenjiru.notes.ui.activities.ViewNoteActivity;
 
@@ -80,10 +81,10 @@ public class NotesFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
-        Note entry = (Note) listView.getItemAtPosition(position);
+        Note note = (Note) listView.getItemAtPosition(position);
 
         Intent intent = new Intent(getActivity(), ViewNoteActivity.class);
-        intent.putExtra(NOTE, entry);
+        intent.putExtra(Extra.NOTE_ID, note.getId());
         startActivity(intent);
     }
 

@@ -2,8 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ro.kenjiru.notes.ui.activities.ViewNoteActivity" >
 
-    <item android:id="@+id/action_settings"
+    <item android:id="@+id/settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
+
 </menu>
