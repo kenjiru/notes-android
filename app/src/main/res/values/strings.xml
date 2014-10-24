@@ -14,5 +14,7 @@
     <string name="search_hint">Search notes</string>
     <string name="search_notes_activity">Search Notes</string>
     <string name="create_folder">Create Folder</string>
+    <string name="change_folder">Change Folder</string>
+    <string name="moved_to">Moved to: </string>
 
 </resources>
