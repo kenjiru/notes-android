@@ -20,7 +20,6 @@ public class NotesFragment extends ListFragment {
 
     private static final String LIST_INSTANCE_STATE = "LIST_INSTANCE_STATE";
     private static final String LIST_ADAPTER_ARRAY = "LIST_ADAPTER_ARRAY";
-    private static final String NOTE = "NOTE";
 
     private List<Note> initialNotes = null;
 
@@ -36,6 +35,13 @@ public class NotesFragment extends ListFragment {
         super.onSaveInstanceState(outState);
 
         saveInstanceState(outState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // FIXME Accessing the list view here seems to somehow prevent saveInstanceState from throwing an exception
+        ListView listView = getListView();
     }
 
     private void saveInstanceState(Bundle outState) {
@@ -55,10 +61,10 @@ public class NotesFragment extends ListFragment {
         List<Note> notes = new ArrayList<Note>();
 
         if (savedInstanceState != null) {
-            Serializable listAdapterArray = savedInstanceState.getSerializable(LIST_ADAPTER_ARRAY);
+            Serializable serializable = savedInstanceState.getSerializable(LIST_ADAPTER_ARRAY);
 
-            if (listAdapterArray != null) {
-                notes = (ArrayList<Note>) listAdapterArray;
+            if (serializable != null) {
+                notes = (ArrayList<Note>) serializable;
             }
         } else {
             if (initialNotes != null) {
