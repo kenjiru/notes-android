@@ -1,7 +1,6 @@
 package ro.kenjiru.notes.ui.activities;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
@@ -38,30 +37,36 @@ public class ListNotesActivity extends Activity {
     }
 
     private void handleIntent(Intent intent) {
-        // Get the intent, verify the action and get the query
+        long folderId = Folder.ALL_FOLDERS;
+
         if (Action.FILTER_NOTES.equals(intent.getAction())) {
-            long folderId = intent.getLongExtra(Extra.FOLDER_ID, Folder.ANY_FOLDER);
-            createListNotesFragment(folderId);
-        } else {
-            createNewFragment(Folder.ANY_FOLDER);
+            long newFolderId = intent.getLongExtra(Extra.FOLDER_ID, Folder.ALL_FOLDERS);
+            long previousFolderId = getPreviousFolderId();
+
+            if (newFolderId != previousFolderId) {
+                folderId = newFolderId;
+            }
         }
+
+        createListNotesFragment(folderId);
+    }
+
+    private long getPreviousFolderId() {
+        ListNotesFragment listNotesFragment = (ListNotesFragment) getFragmentManager().findFragmentById(R.id.list_notes_fragment);
+
+        if (listNotesFragment != null) {
+            return listNotesFragment.getFolderId();
+        }
+
+        return Folder.ALL_FOLDERS;
     }
 
     private void createListNotesFragment(long folderId) {
-        ListNotesFragment listNotesFragment = (ListNotesFragment) getFragmentManager().findFragmentById(R.id.list_notes_fragment);
-
-        if (listNotesFragment == null || listNotesFragment.getFolderId() != folderId) {
-            createNewFragment(folderId);
-        }
-    }
-
-    private void createNewFragment(long folderId) {
         ListNotesFragment listNotesFragment = new ListNotesFragment();
         listNotesFragment.setFolderId(folderId);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.list_notes_container, listNotesFragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
