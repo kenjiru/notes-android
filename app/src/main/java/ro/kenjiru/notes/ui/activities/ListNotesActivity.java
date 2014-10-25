@@ -8,17 +8,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.intent.Action;
 import ro.kenjiru.notes.intent.Extra;
 import ro.kenjiru.notes.model.Folder;
+import ro.kenjiru.notes.ui.fragments.folders.ListFoldersFragment;
 import ro.kenjiru.notes.ui.fragments.notes.ListNotesFragment;
 
-public class ListNotesActivity extends Activity {
+public class ListNotesActivity extends Activity implements ListFoldersFragment.OnFolderSelectedListener {
     private static final int RESULT_SETTINGS = 1;
 
     @Override
@@ -118,7 +121,14 @@ public class ListNotesActivity extends Activity {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         StringBuilder builder = new StringBuilder();
+        builder.append("Notes folder: ").append(sharedPrefs.getString(SettingsActivity.NOTES_FOLDER, "NULL"));
+    }
 
-        builder.append("Notes folder: " + sharedPrefs.getString(SettingsActivity.NOTES_FOLDER, "NULL"));
+    @Override
+    public void onFolderSelected(long folderId) {
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        View drawer = findViewById(R.id.navigation_drawer);
+
+        mDrawerLayout.closeDrawer(drawer);
     }
 }
