@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -43,12 +44,39 @@ public class ListFoldersFragment extends ListFragment implements NewFolderDialog
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_list_folders, container, false);
-        attachOnCreateFolderListener(fragmentView);
+
+        attachButtonClickListener(fragmentView);
+        attachListLongClickListener(fragmentView);
 
         return fragmentView;
     }
 
-    private void attachOnCreateFolderListener(View fragmentView) {
+    private void attachListLongClickListener(View fragmentView) {
+        ListView listView = (ListView) fragmentView.findViewById(android.R.id.list);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int index, long l) {
+                removeFolder(index);
+
+                return true;
+            }
+        });
+    }
+
+    private void removeFolder(int index) {
+        Folder folder = (Folder) getListAdapter().getItem(index);
+
+        if (folder instanceof SpecialFolder == false) {
+            Toast.makeText(getActivity(), "Removed folder " + folder.getName(), Toast.LENGTH_SHORT).show();
+            folder.delete();
+
+            removeAllFolders();
+            addAllFolders();
+        }
+    }
+
+    private void attachButtonClickListener(View fragmentView) {
         View createButton = fragmentView.findViewById(R.id.new_folder_button);
 
         createButton.setOnClickListener(new View.OnClickListener() {
