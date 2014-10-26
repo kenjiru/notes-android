@@ -18,6 +18,7 @@ import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.intent.Action;
 import ro.kenjiru.notes.intent.Extra;
 import ro.kenjiru.notes.model.Folder;
+import ro.kenjiru.notes.model.SpecialFolder;
 import ro.kenjiru.notes.ui.fragments.folders.ListFoldersFragment;
 import ro.kenjiru.notes.ui.fragments.notes.ListNotesFragment;
 
@@ -43,10 +44,10 @@ public class ListNotesActivity extends Activity implements ListFoldersFragment.O
     }
 
     private void handleIntent(Intent intent) {
-        long folderId = Folder.ALL_FOLDERS;
+        long folderId = SpecialFolder.ALL_FOLDERS;
 
         if (Action.FILTER_NOTES.equals(intent.getAction())) {
-            long newFolderId = intent.getLongExtra(Extra.FOLDER_ID, Folder.ALL_FOLDERS);
+            long newFolderId = intent.getLongExtra(Extra.FOLDER_ID, SpecialFolder.ALL_FOLDERS);
             long previousFolderId = getPreviousFolderId();
 
             if (newFolderId != previousFolderId) {
@@ -64,7 +65,7 @@ public class ListNotesActivity extends Activity implements ListFoldersFragment.O
             return listNotesFragment.getFolderId();
         }
 
-        return Folder.ALL_FOLDERS;
+        return SpecialFolder.ALL_FOLDERS;
     }
 
     private void createListNotesFragment(long folderId) {

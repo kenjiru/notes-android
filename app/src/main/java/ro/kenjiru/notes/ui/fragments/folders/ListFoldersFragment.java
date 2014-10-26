@@ -17,6 +17,7 @@ import java.util.List;
 import ro.kenjiru.notes.intent.Action;
 import ro.kenjiru.notes.intent.Extra;
 import ro.kenjiru.notes.model.Folder;
+import ro.kenjiru.notes.model.SpecialFolder;
 import ro.kenjiru.notes.ui.activities.ListNotesActivity;
 
 public class ListFoldersFragment extends ListFragment {
@@ -56,13 +57,21 @@ public class ListFoldersFragment extends ListFragment {
                 .execute();
 
         FoldersAdapter listAdapter = (FoldersAdapter) this.getListAdapter();
+        listAdapter.add(SpecialFolder.createAllFolders());
+        listAdapter.add(SpecialFolder.createNoFolder());
         listAdapter.addAll(folders);
     }
 
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         Folder folder = (Folder) listView.getItemAtPosition(position);
-        Long folderId = folder.getId();
+        long folderId;
+
+        if (folder instanceof SpecialFolder) {
+            folderId = ((SpecialFolder) folder).getSpecialId();
+        } else {
+            folderId = folder.getId();
+        }
 
         notifyParentActivity(folderId);
         startFilterNotesActivity(folderId);

@@ -97,7 +97,7 @@ public class ViewNoteActivity extends Activity implements ActionBar.OnNavigation
                 .execute();
 
         List<Folder> folders = new ArrayList<Folder>();
-        folders.add(Folder.getNoneFolder());
+        folders.add(new Folder("None"));
         folders.addAll(actualFolders);
 
         return folders;

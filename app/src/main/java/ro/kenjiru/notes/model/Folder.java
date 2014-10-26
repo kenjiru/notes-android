@@ -12,9 +12,12 @@ public class Folder extends Model implements Serializable {
     @Column(name = "name")
     private String name;
 
-    public static long ALL_FOLDERS = -1;
-
     public Folder() {
+
+    }
+
+    public Folder(String name) {
+        this.name = name;
     }
 
     @Override
@@ -25,12 +28,8 @@ public class Folder extends Model implements Serializable {
 
         Folder that = (Folder) other;
 
-        return this.name == that.getName() &&
+        return this.name.equals(that.getName()) &&
                 this.getId() == that.getId();
-    }
-
-    public Folder(String name) {
-        this.name = name;
     }
 
     public List<Note> notes() {
@@ -43,9 +42,5 @@ public class Folder extends Model implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public static Folder getNoneFolder() {
-        return new Folder("None");
     }
 }

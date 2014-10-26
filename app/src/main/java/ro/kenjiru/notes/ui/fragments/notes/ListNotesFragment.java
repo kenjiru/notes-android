@@ -10,6 +10,7 @@ import java.util.List;
 
 import ro.kenjiru.notes.model.Folder;
 import ro.kenjiru.notes.model.Note;
+import ro.kenjiru.notes.model.SpecialFolder;
 import ro.kenjiru.notes.ui.fragments.notes.EndlessScrollListener;
 import ro.kenjiru.notes.ui.fragments.notes.NotesAdapter;
 import ro.kenjiru.notes.ui.fragments.notes.NotesFragment;
@@ -17,7 +18,7 @@ import ro.kenjiru.notes.ui.fragments.notes.NotesFragment;
 public class ListNotesFragment extends NotesFragment {
     private static final int ITEMS_PER_PAGE = 3;
 
-    private long folderId = Folder.ALL_FOLDERS;
+    private long folderId = SpecialFolder.ALL_FOLDERS;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -54,7 +55,11 @@ public class ListNotesFragment extends NotesFragment {
                 .offset(page * itemsPerPage)
                 .limit(itemsPerPage);
 
-        if (folderId != Folder.ALL_FOLDERS) {
+        if (SpecialFolder.isSpecialFolder(folderId)) {
+            if (folderId == SpecialFolder.NO_FOLDER) {
+                from = from.where("folder is null");
+            }
+        } else {
             from = from.where("folder = ?", folderId);
         }
 
