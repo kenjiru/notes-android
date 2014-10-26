@@ -1,6 +1,9 @@
 package ro.kenjiru.notes.ui.fragments.folders;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import java.util.List;
 
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Folder;
+import ro.kenjiru.notes.model.SpecialFolder;
 
 public class FoldersAdapter extends ArrayAdapter<Folder> {
     private final List<Folder> folders;
@@ -31,9 +35,24 @@ public class FoldersAdapter extends ArrayAdapter<Folder> {
         TextView name = (TextView) convertView.findViewById(R.id.name);
 
         Folder folder = this.getItem(position);
+        String folderName = folder.getName();
 
-        thumbnail.setImageResource(R.drawable.ic_launcher);
-        name.setText(folder.getName());
+        if (folder instanceof SpecialFolder) {
+            SpannableString boldText = new SpannableString(folderName);
+            boldText.setSpan(new StyleSpan(Typeface.BOLD), 0, folderName.length(), 0);
+
+            name.setText(boldText);
+
+            SpecialFolder specialFolder = (SpecialFolder) folder;
+            if (specialFolder.getSpecialId() == SpecialFolder.ALL_FOLDERS) {
+                thumbnail.setImageResource(R.drawable.abc_ic_go);
+            } else if (specialFolder.getSpecialId() == SpecialFolder.NO_FOLDER) {
+                thumbnail.setImageResource(R.drawable.abc_ic_go);
+            }
+        } else {
+            name.setText(folderName);
+            thumbnail.setImageResource(R.drawable.ic_launcher);
+        }
 
         return convertView;
     }
