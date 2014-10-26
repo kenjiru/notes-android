@@ -1,26 +1,31 @@
 package ro.kenjiru.notes.ui.fragments.folders;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.intent.Action;
 import ro.kenjiru.notes.intent.Extra;
 import ro.kenjiru.notes.model.Folder;
 import ro.kenjiru.notes.model.SpecialFolder;
 import ro.kenjiru.notes.ui.activities.ListNotesActivity;
 
-public class ListFoldersFragment extends ListFragment {
+public class ListFoldersFragment extends ListFragment implements NewFolderDialog.CreateFolderDialogListener {
 
     public interface OnFolderSelectedListener {
         public void onFolderSelected(long folderId);
@@ -36,11 +41,51 @@ public class ListFoldersFragment extends ListFragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View fragmentView = inflater.inflate(R.layout.fragment_list_folders, container, false);
+        attachOnCreateFolderListener(fragmentView);
+
+        return fragmentView;
+    }
+
+    private void attachOnCreateFolderListener(View fragmentView) {
+        View createButton = fragmentView.findViewById(R.id.new_folder_button);
+
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newFolderClicked();
+            }
+        });
+    }
+
+    private void newFolderClicked() {
+        DialogFragment dialog = new NewFolderDialog();
+
+        dialog.setTargetFragment(this, 0);
+        dialog.show(getFragmentManager(), "CreateFolderDialog");
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, String folderName) {
+        createFolder(folderName);
+        removeAllFolders();
+        addAllFolders();
+    }
+
+    private void createFolder(String folderName) {
+        Folder folder = new Folder(folderName);
+        folder.save();
+
+        Toast.makeText(getActivity(), "Created folder " + folderName, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         createListAdapter();
-        addAllFolder();
+        addAllFolders();
     }
 
     private void createListAdapter() {
@@ -50,16 +95,22 @@ public class ListFoldersFragment extends ListFragment {
         setListAdapter(listAdapter);
     }
 
-    private void addAllFolder() {
+    private void addAllFolders() {
         List<Folder> folders = new Select()
                 .from(Folder.class)
                 .orderBy("name ASC")
                 .execute();
 
         FoldersAdapter listAdapter = (FoldersAdapter) this.getListAdapter();
+
         listAdapter.add(SpecialFolder.createAllFolders());
         listAdapter.add(SpecialFolder.createNoFolder());
         listAdapter.addAll(folders);
+    }
+
+    private void removeAllFolders() {
+        FoldersAdapter listAdapter = (FoldersAdapter) this.getListAdapter();
+        listAdapter.clear();
     }
 
     @Override

@@ -13,8 +13,12 @@
     <string name="action_search">Search</string>
     <string name="search_hint">Search notes</string>
     <string name="search_notes_activity">Search Notes</string>
-    <string name="create_folder">Create Folder</string>
+    <string name="new_folder">New Folder</string>
     <string name="change_folder">Change Folder</string>
     <string name="moved_to">Moved to: </string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="create_new_folder">Create new folder</string>
+    <string name="folder_name">folder name</string>
 
 </resources>
