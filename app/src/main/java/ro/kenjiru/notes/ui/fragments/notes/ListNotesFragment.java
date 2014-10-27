@@ -1,19 +1,24 @@
 package ro.kenjiru.notes.ui.fragments.notes;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
 import java.util.List;
 
+import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.model.Folder;
 import ro.kenjiru.notes.model.Note;
 import ro.kenjiru.notes.model.SpecialFolder;
-import ro.kenjiru.notes.ui.fragments.notes.EndlessScrollListener;
-import ro.kenjiru.notes.ui.fragments.notes.NotesAdapter;
-import ro.kenjiru.notes.ui.fragments.notes.NotesFragment;
 
 public class ListNotesFragment extends NotesFragment {
     private static final int ITEMS_PER_PAGE = 3;
@@ -25,6 +30,46 @@ public class ListNotesFragment extends NotesFragment {
         super.onActivityCreated(savedInstanceState);
 
         setScrollListener();
+        attachListLongClickListener();
+    }
+
+    private void attachListLongClickListener() {
+        ListView listView = getListView();
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int index, long l) {
+                showDeleteDialog(index);
+
+                return true;
+            }
+        });
+    }
+
+    private void showDeleteDialog(final int index) {
+        Note note = (Note) getListAdapter().getItem(index);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        String message = getActivity().getString(R.string.delete_note);
+        message = String.format(message, note.getTitle());
+
+        builder.setMessage(Html.fromHtml(message))
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteNote(index);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null);
+
+        builder.create().show();
+    }
+
+    private void deleteNote(int index) {
+        Note note = (Note) getListAdapter().getItem(index);
+        note.delete();
+
+        ArrayAdapter<Note> adapter = (ArrayAdapter<Note>) getListAdapter();
+        adapter.remove(note);
     }
 
     private void setScrollListener() {

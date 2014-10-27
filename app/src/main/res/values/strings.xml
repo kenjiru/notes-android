@@ -22,5 +22,6 @@
     <string name="folder_name">folder name</string>
     <string name="delete">Delete</string>
     <string name="delete_folder">Delete folder &lt;i>%1$s&lt;/i>?</string>
+    <string name="delete_note">Delete note &lt;i>%1$s&lt;/i>?</string>
 
 </resources>
