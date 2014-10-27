@@ -18,8 +18,7 @@
 
         <activity
             android:name=".ui.activities.ListNotesActivity"
-            android:label="@string/notes_list_activity"
-            android:launchMode="singleTop">
+            android:label="@string/notes_list_activity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

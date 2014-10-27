@@ -1,15 +1,19 @@
 package ro.kenjiru.notes.ui.fragments.folders;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.ListFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -57,23 +61,41 @@ public class ListFoldersFragment extends ListFragment implements NewFolderDialog
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int index, long l) {
-                removeFolder(index);
+                showDeleteDialog(index);
 
                 return true;
             }
         });
     }
 
-    private void removeFolder(int index) {
+    private void showDeleteDialog(final int index) {
         Folder folder = (Folder) getListAdapter().getItem(index);
 
-        if (folder instanceof SpecialFolder == false) {
-            Toast.makeText(getActivity(), "Removed folder " + folder.getName(), Toast.LENGTH_SHORT).show();
-            folder.delete();
-
-            removeAllFolders();
-            addAllFolders();
+        if (folder instanceof SpecialFolder) {
+            return;
         }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        String message = getActivity().getString(R.string.delete_folder);
+        message = String.format(message, folder.getName());
+
+        builder.setMessage(Html.fromHtml(message))
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteFolder(index);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null);
+
+        builder.create().show();
+    }
+
+    private void deleteFolder(int index) {
+        Folder folder = (Folder) getListAdapter().getItem(index);
+        folder.delete();
+
+        ArrayAdapter<Folder> adapter = (ArrayAdapter<Folder>) getListAdapter();
+        adapter.remove(folder);
     }
 
     private void attachButtonClickListener(View fragmentView) {

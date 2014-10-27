@@ -20,5 +20,7 @@
     <string name="cancel">Cancel</string>
     <string name="create_new_folder">Create new folder</string>
     <string name="folder_name">folder name</string>
+    <string name="delete">Delete</string>
+    <string name="delete_folder">Delete folder &lt;i>%1$s&lt;/i>?</string>
 
 </resources>
