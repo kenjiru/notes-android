@@ -16,6 +16,7 @@ import com.activeandroid.query.Select;
 import java.util.List;
 
 import ro.kenjiru.notes.R;
+import ro.kenjiru.notes.intent.Extra;
 import ro.kenjiru.notes.model.Folder;
 import ro.kenjiru.notes.model.Note;
 import ro.kenjiru.notes.model.SpecialFolder;
@@ -29,8 +30,26 @@ public class ListNotesFragment extends NotesFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        restoreInstanceState(savedInstanceState);
         setScrollListener();
         attachListLongClickListener();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        saveInstanceState(outState);
+    }
+
+    private void saveInstanceState(Bundle outState) {
+        outState.putLong(Extra.FOLDER_ID, folderId);
+    }
+
+    private void restoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            folderId = savedInstanceState.getLong(Extra.FOLDER_ID);
+        }
     }
 
     private void attachListLongClickListener() {
