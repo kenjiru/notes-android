@@ -24,8 +24,6 @@ import ro.kenjiru.notes.ui.fragments.view.ViewNoteFragment;
 
 public class ViewNoteActivity extends Activity implements ActionBar.OnNavigationListener {
 
-    private static final String NOTE = "NOTE";
-
     private Note note = null;
     private ArrayAdapter<Folder> foldersAdapter = null;
 
@@ -34,29 +32,47 @@ public class ViewNoteActivity extends Activity implements ActionBar.OnNavigation
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_note);
 
-        if (savedInstanceState == null) {
-            handleIntent();
-        }
+        restoreInstanceState(savedInstanceState);
+        updateUi();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putLong(Extra.NOTE_ID, note.getId());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
-        handleIntent();
+
+        restoreInstanceState(null);
+        updateUi();
     }
 
-    private void handleIntent() {
-        determineNote();
+    private void restoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            restoreNoteFromBundle(savedInstanceState);
+        } else {
+            Intent intent = getIntent();
+
+            if (intent != null) {
+                Bundle extras = intent.getExtras();
+                restoreNoteFromBundle(extras);
+            }
+        }
+    }
+
+    private void restoreNoteFromBundle(Bundle bundle) {
+        long noteId = bundle.getLong(Extra.NOTE_ID);
+
+        this.note = Model.load(Note.class, noteId);
+    }
+
+    private void updateUi() {
         createViewNoteFragment();
         configureDropDownNavigation();
-    }
-
-    private void determineNote() {
-        Intent intent = getIntent();
-        Bundle savedInstanceState = intent.getExtras();
-
-        long noteId = savedInstanceState.getLong(Extra.NOTE_ID);
-        note = Model.load(Note.class, noteId);
     }
 
     private void createViewNoteFragment() {
