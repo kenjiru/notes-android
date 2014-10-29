@@ -127,7 +127,14 @@ public class ListFoldersFragment extends ListFragment implements NewFolderDialog
         Folder folder = new Folder(folderName);
         folder.save();
 
-        Toast.makeText(getActivity(), "Created folder " + folderName, Toast.LENGTH_SHORT).show();
+        showCreatedMessage(folderName);
+    }
+
+    private void showCreatedMessage(String folderName) {
+        String message = getString(R.string.created_folder);
+        message = String.format(message, folderName);
+
+        Toast.makeText(getActivity(), Html.fromHtml(message), Toast.LENGTH_SHORT).show();
     }
 
     @Override

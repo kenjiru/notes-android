@@ -15,12 +15,13 @@
     <string name="search_notes_activity">Search Notes</string>
     <string name="new_folder">New Folder</string>
     <string name="change_folder">Change Folder</string>
-    <string name="moved_to">Moved to: </string>
+    <string name="moved_to">Moved to &lt;i>%1$s&lt;/i></string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
     <string name="create_new_folder">Create new folder</string>
     <string name="folder_name">folder name</string>
     <string name="delete">Delete</string>
+    <string name="created_folder">Create folder &lt;i>%1$s&lt;/i></string>
     <string name="delete_folder">Delete folder &lt;i>%1$s&lt;/i>?</string>
     <string name="delete_note">Delete note &lt;i>%1$s&lt;/i>?</string>
 

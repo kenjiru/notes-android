@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -127,14 +128,16 @@ public class ViewNoteActivity extends Activity implements ActionBar.OnNavigation
             note.setFolder(folder);
             note.save();
 
-            showMessage(folder.getName());
+            showMovedMessage(folder.getName());
         }
 
         return false;
     }
 
-    private void showMessage(String folderName) {
-        String message = getString(R.string.moved_to) + folderName;
-        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+    private void showMovedMessage(String folderName) {
+        String message = getString(R.string.moved_to);
+        message = String.format(message, folderName);
+
+        Toast.makeText(getBaseContext(), Html.fromHtml(message), Toast.LENGTH_SHORT).show();
     }
 }
