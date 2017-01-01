@@ -15,6 +15,9 @@
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="5" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="ro.kenjiru.notes.model.Note,ro.kenjiru.notes.model.Folder,ro.kenjiru.notes.model.SpecialFolder"/>
 
         <activity
             android:name=".ui.activities.ListNotesActivity"
@@ -41,7 +44,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ro.kenjiru.notes.ui.list.NotesListActivity" />
+                android:value=".ui.activities.ListNotesActivity" />
         </activity>
 
         <activity
