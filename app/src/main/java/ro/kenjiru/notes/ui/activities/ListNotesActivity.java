@@ -13,9 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
-import android.widget.Toast;
 
-import com.dropbox.core.android.Auth;
 import com.dropbox.core.v2.users.FullAccount;
 
 import ro.kenjiru.notes.R;
@@ -31,6 +29,8 @@ import ro.kenjiru.notes.ui.fragments.notes.ListNotesFragment;
 public class ListNotesActivity extends DropboxActivity implements ListFoldersFragment.OnFolderSelectedListener {
     private static final int RESULT_SETTINGS = 1;
 
+    private Menu activityMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +41,13 @@ public class ListNotesActivity extends DropboxActivity implements ListFoldersFra
         if (savedInstanceState == null) {
             handleIntent(getIntent());
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateAuthMenuItem();
     }
 
     @Override
@@ -86,8 +93,11 @@ public class ListNotesActivity extends DropboxActivity implements ListFoldersFra
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        activityMenu = menu;
+
         getMenuInflater().inflate(R.menu.list_notes, menu);
         configureSearchWidget(menu);
+        updateAuthMenuItem();
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -109,16 +119,17 @@ public class ListNotesActivity extends DropboxActivity implements ListFoldersFra
                 startActivityForResult(i, RESULT_SETTINGS);
                 break;
 
-            case R.id.action_dropbox_authenticate:
-                authenticateWithDropbox();
+            case R.id.action_dropbox_login:
+                acquireToken();
+                break;
+
+            case R.id.action_dropbox_logout:
+                deleteToken();
+                updateAuthMenuItem();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void authenticateWithDropbox() {
-        Auth.startOAuth2Authentication(this, getString(R.string.dropbox_app_key));
     }
 
     @Override
@@ -127,12 +138,10 @@ public class ListNotesActivity extends DropboxActivity implements ListFoldersFra
             @Override
             public void onComplete(FullAccount result) {
                 String displayName = result.getName().getDisplayName();
-                Toast.makeText(ListNotesActivity.this, "Logged in as " + displayName, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(Exception e) {
-                Toast.makeText(ListNotesActivity.this, "Could not authenticate", Toast.LENGTH_SHORT).show();
                 Log.e(getClass().getName(), "Failed to get account details.", e);
             }
         }).execute();
@@ -163,5 +172,22 @@ public class ListNotesActivity extends DropboxActivity implements ListFoldersFra
         View drawer = findViewById(R.id.navigation_drawer);
 
         mDrawerLayout.closeDrawer(drawer);
+    }
+
+    private void updateAuthMenuItem() {
+        if (activityMenu == null) {
+            return;
+        }
+
+        MenuItem dropboxLogin = activityMenu.findItem(R.id.action_dropbox_login);
+        MenuItem dropboxLogout = activityMenu.findItem(R.id.action_dropbox_logout);
+
+        if (hasToken()) {
+            dropboxLogin.setVisible(false);
+            dropboxLogout.setVisible(true);
+        } else {
+            dropboxLogin.setVisible(true);
+            dropboxLogout.setVisible(false);
+        }
     }
 }

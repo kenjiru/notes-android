@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.dropbox.core.android.Auth;
 
+import ro.kenjiru.notes.R;
 
 /**
  * Base class for Activities that require auth tokens
@@ -37,6 +38,15 @@ public abstract class DropboxActivity extends Activity {
     }
 
     protected abstract void loadDropboxData();
+
+    protected void acquireToken() {
+        Auth.startOAuth2Authentication(this, getString(R.string.dropbox_app_key));
+    }
+
+    protected void deleteToken() {
+        SharedPreferences prefs = getSharedPreferences("notes", MODE_PRIVATE);
+        prefs.edit().putString("access-token", null).apply();
+    }
 
     protected boolean hasToken() {
         SharedPreferences prefs = getSharedPreferences("notes", MODE_PRIVATE);

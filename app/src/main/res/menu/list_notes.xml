@@ -7,8 +7,13 @@
         android:orderInCategory="100"
         android:showAsAction="never" />
 
-    <item android:id="@+id/action_dropbox_authenticate"
-        android:title="@string/dropbox_authenticate"
+    <item android:id="@+id/action_dropbox_login"
+        android:title="@string/dropbox_login"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/action_dropbox_logout"
+        android:title="@string/dropbox_logout"
         android:orderInCategory="100"
         android:showAsAction="never" />
 

@@ -24,7 +24,10 @@
     <string name="created_folder">Create folder &lt;i>%1$s&lt;/i></string>
     <string name="delete_folder">Delete folder &lt;i>%1$s&lt;/i>?</string>
     <string name="delete_note">Delete note &lt;i>%1$s&lt;/i>?</string>
-    <string name="dropbox_authenticate">Dropbox login</string>
+
     <!-- Dropbox settings. This is the tomboy-notes Dropbox app. -->
     <string name="dropbox_app_key">17zzlf216nsykj9</string>
+
+    <string name="dropbox_login">Dropbox login</string>
+    <string name="dropbox_logout">Dropbox logout</string>
 </resources>
