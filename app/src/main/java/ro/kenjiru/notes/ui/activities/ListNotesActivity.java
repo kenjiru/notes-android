@@ -26,6 +26,8 @@ import ro.kenjiru.notes.model.SpecialFolder;
 import ro.kenjiru.notes.ui.fragments.folders.ListFoldersFragment;
 import ro.kenjiru.notes.ui.fragments.notes.ListNotesFragment;
 
+import static ro.kenjiru.notes.ui.fragments.settings.SettingsFragment.NOTES_FOLDER;
+
 public class ListNotesActivity extends DropboxActivity implements ListFoldersFragment.OnFolderSelectedListener {
     private static final int RESULT_SETTINGS = 1;
 
@@ -163,7 +165,7 @@ public class ListNotesActivity extends DropboxActivity implements ListFoldersFra
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         StringBuilder builder = new StringBuilder();
-        builder.append("Notes folder: ").append(sharedPrefs.getString(SettingsActivity.NOTES_FOLDER, "NULL"));
+        builder.append("Notes folder: ").append(sharedPrefs.getString(NOTES_FOLDER, "NULL"));
     }
 
     @Override

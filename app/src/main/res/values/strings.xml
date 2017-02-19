@@ -30,4 +30,5 @@
 
     <string name="dropbox_login">Dropbox login</string>
     <string name="dropbox_logout">Dropbox logout</string>
+    <string name="pref_dropboxUser">Dropbox user</string>
 </resources>
