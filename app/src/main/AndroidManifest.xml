@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ro.kenjiru.notes" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
@@ -66,6 +68,23 @@
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:label="@string/title_activity_settings" >
+        </activity>
+
+        <!-- This activity is used for Dropbox authentication. -->
+        <activity
+            android:name="com.dropbox.core.android.AuthActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask" >
+            <intent-filter>
+
+                <!-- Change this to be db- followed by your app key -->
+                <data android:scheme="db-17zzlf216nsykj9" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

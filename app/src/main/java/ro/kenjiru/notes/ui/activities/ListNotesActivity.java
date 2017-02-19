@@ -1,6 +1,5 @@
 package ro.kenjiru.notes.ui.activities;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
@@ -9,20 +8,27 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
+
+import com.dropbox.core.android.Auth;
+import com.dropbox.core.v2.users.FullAccount;
 
 import ro.kenjiru.notes.R;
+import ro.kenjiru.notes.dropbox.DropboxActivity;
+import ro.kenjiru.notes.dropbox.DropboxClientFactory;
+import ro.kenjiru.notes.dropbox.GetCurrentAccountTask;
 import ro.kenjiru.notes.intent.Action;
 import ro.kenjiru.notes.intent.Extra;
-import ro.kenjiru.notes.model.Folder;
 import ro.kenjiru.notes.model.SpecialFolder;
 import ro.kenjiru.notes.ui.fragments.folders.ListFoldersFragment;
 import ro.kenjiru.notes.ui.fragments.notes.ListNotesFragment;
 
-public class ListNotesActivity extends Activity implements ListFoldersFragment.OnFolderSelectedListener {
+public class ListNotesActivity extends DropboxActivity implements ListFoldersFragment.OnFolderSelectedListener {
     private static final int RESULT_SETTINGS = 1;
 
     @Override
@@ -95,15 +101,41 @@ public class ListNotesActivity extends Activity implements ListFoldersFragment.O
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent i = new Intent(this, SettingsActivity.class);
-            startActivityForResult(i, RESULT_SETTINGS);
+
+        switch (id) {
+            case R.id.action_settings:
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivityForResult(i, RESULT_SETTINGS);
+                break;
+
+            case R.id.action_dropbox_authenticate:
+                authenticateWithDropbox();
+                break;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void authenticateWithDropbox() {
+        Auth.startOAuth2Authentication(this, getString(R.string.dropbox_app_key));
+    }
+
+    @Override
+    protected void loadDropboxData() {
+        new GetCurrentAccountTask(DropboxClientFactory.getClient(), new GetCurrentAccountTask.Callback() {
+            @Override
+            public void onComplete(FullAccount result) {
+                String displayName = result.getName().getDisplayName();
+                Toast.makeText(ListNotesActivity.this, "Logged in as " + displayName, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(ListNotesActivity.this, "Could not authenticate", Toast.LENGTH_SHORT).show();
+                Log.e(getClass().getName(), "Failed to get account details.", e);
+            }
+        }).execute();
     }
 
     @Override
