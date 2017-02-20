@@ -8,6 +8,7 @@ import android.preference.PreferenceFragment;
 import java.util.Map;
 
 import ro.kenjiru.notes.R;
+import ro.kenjiru.notes.ui.activities.SettingsActivity;
 
 public class SettingsFragment extends PreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -22,6 +23,27 @@ public class SettingsFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.preferences);
 
         setSummariesForPreferences();
+        handleDropboxLogin();
+    }
+
+    private void handleDropboxLogin() {
+        Preference button = findPreference(getString(R.string.dropbox_user));
+
+        button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SettingsActivity settingsActivity = (SettingsActivity) getActivity();
+
+                if (settingsActivity.hasToken()) {
+                    // TODO Add a confirmation dialog here
+                    settingsActivity.deleteToken();
+                } else {
+                    settingsActivity.acquireToken();
+                }
+
+                return true;
+            }
+        });
     }
 
     private void setSummariesForPreferences() {
@@ -31,15 +53,20 @@ public class SettingsFragment extends PreferenceFragment
         for (Map.Entry<String, ?> entry : allPreferences.entrySet()) {
             Preference pref = findPreference(entry.getKey());
 
-            pref.setSummary((String) entry.getValue());
+            if (pref != null) {
+                pref.setSummary((String) entry.getValue());
+            }
         }
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Preference pref = findPreference(key);
+
         if (key.equals(NOTES_FOLDER)) {
-            Preference folderPref = findPreference(key);
-            folderPref.setSummary(sharedPreferences.getString(key, ""));
+            pref.setSummary(sharedPreferences.getString(key, ""));
+        } else if (key.equals(getString(R.string.dropbox_user))) {
+            pref.setSummary(sharedPreferences.getString(key, getString(R.string.not_logged_in)));
         }
     }
 
@@ -58,5 +85,4 @@ public class SettingsFragment extends PreferenceFragment
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
-
 }

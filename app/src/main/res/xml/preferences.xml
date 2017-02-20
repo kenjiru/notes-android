@@ -8,4 +8,11 @@
         android:title="@string/pref_notesFolder"
         android:defaultValue="@string/pref_notesFolder_default"
         android:singleLine="true"/>
+
+    <!-- This preference acts as a button. -->
+    <Preference
+        android:key="@string/dropbox_user"
+        android:title="@string/pref_dropboxUser"
+        android:summary="@string/not_logged_in"/>
+
 </PreferenceScreen>

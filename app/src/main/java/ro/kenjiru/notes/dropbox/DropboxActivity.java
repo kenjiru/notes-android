@@ -2,6 +2,7 @@ package ro.kenjiru.notes.dropbox;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.dropbox.core.android.Auth;
 
@@ -17,7 +18,7 @@ public abstract class DropboxActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        SharedPreferences prefs = getSharedPreferences("notes", MODE_PRIVATE);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String accessToken = prefs.getString("access-token", null);
 
         if (accessToken == null) {
@@ -39,17 +40,21 @@ public abstract class DropboxActivity extends Activity {
 
     protected abstract void loadDropboxData();
 
-    protected void acquireToken() {
+    public void acquireToken() {
         Auth.startOAuth2Authentication(this, getString(R.string.dropbox_app_key));
     }
 
-    protected void deleteToken() {
-        SharedPreferences prefs = getSharedPreferences("notes", MODE_PRIVATE);
-        prefs.edit().putString("access-token", null).apply();
+    public void deleteToken() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString("access-token", null)
+                .putString(getString(R.string.dropbox_user), null)
+                .apply();
     }
 
-    protected boolean hasToken() {
-        SharedPreferences prefs = getSharedPreferences("notes", MODE_PRIVATE);
+    public boolean hasToken() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String accessToken = prefs.getString("access-token", null);
 
         return accessToken != null;

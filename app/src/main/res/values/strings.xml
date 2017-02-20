@@ -25,10 +25,14 @@
     <string name="delete_folder">Delete folder &lt;i>%1$s&lt;/i>?</string>
     <string name="delete_note">Delete note &lt;i>%1$s&lt;/i>?</string>
 
+    <!-- preferences -->
+    <string name="pref_dropboxUser">Dropbox user</string>
+
     <!-- Dropbox settings. This is the tomboy-notes Dropbox app. -->
     <string name="dropbox_app_key">17zzlf216nsykj9</string>
 
     <string name="dropbox_login">Dropbox login</string>
     <string name="dropbox_logout">Dropbox logout</string>
-    <string name="pref_dropboxUser">Dropbox user</string>
+    <string name="dropbox_user">pref_dropboxUser</string>
+    <string name="not_logged_in">Not logged in</string>
 </resources>

@@ -140,6 +140,9 @@ public class ListNotesActivity extends DropboxActivity implements ListFoldersFra
             @Override
             public void onComplete(FullAccount result) {
                 String displayName = result.getName().getDisplayName();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ListNotesActivity.this);
+
+                prefs.edit().putString(getString(R.string.dropbox_user), displayName).apply();
             }
 
             @Override
