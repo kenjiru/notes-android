@@ -3,6 +3,8 @@ package ro.kenjiru.notes.dropbox;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.dropbox.core.android.Auth;
 
@@ -44,7 +46,19 @@ public abstract class DropboxActivity extends Activity {
         Auth.startOAuth2Authentication(this, getString(R.string.dropbox_app_key));
     }
 
-    public void deleteToken() {
+    public boolean hasToken() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String accessToken = prefs.getString("access-token", null);
+
+        return accessToken != null;
+    }
+
+    public void revokeToken() {
+        executeRevokeToken();
+        removeToken();
+    }
+
+    private void removeToken() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
 
@@ -53,10 +67,19 @@ public abstract class DropboxActivity extends Activity {
                 .apply();
     }
 
-    public boolean hasToken() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String accessToken = prefs.getString("access-token", null);
+    private void executeRevokeToken() {
+        new TokenRevokeTask(DropboxClientFactory.getClient(), new TokenRevokeTask.Callback() {
+            @Override
+            public void onComplete() {
+                Toast.makeText(getBaseContext(), "Successfully revoked the auth token", Toast.LENGTH_SHORT).show();
+            }
 
-        return accessToken != null;
+            @Override
+            public void onError(Exception e) {
+                Log.e(getClass().getName(), "Failed to revoke token.", e);
+            }
+        }).execute();
+
+        DropboxClientFactory.invalidateClient();
     }
 }

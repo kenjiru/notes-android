@@ -36,7 +36,7 @@ public class SettingsFragment extends PreferenceFragment
 
                 if (settingsActivity.hasToken()) {
                     // TODO Add a confirmation dialog here
-                    settingsActivity.deleteToken();
+                    settingsActivity.revokeToken();
                 } else {
                     settingsActivity.acquireToken();
                 }

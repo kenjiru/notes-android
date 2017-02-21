@@ -1,6 +1,7 @@
 package ro.kenjiru.notes.dropbox;
 
 import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.android.AuthActivity;
 import com.dropbox.core.v2.DbxClientV2;
 
 /**
@@ -24,5 +25,13 @@ public class DropboxClientFactory {
         }
 
         return sDbxClient;
+    }
+
+    public static void invalidateClient() {
+        sDbxClient = null;
+
+        // We need to reset the result of the last authentication using the Dropbox AuthActivity
+        // Otherwise, Auth.getOAuth2Token() will return the last authenticated token
+        AuthActivity.result = null;
     }
 }

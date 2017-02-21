@@ -126,7 +126,7 @@ public class ListNotesActivity extends DropboxActivity implements ListFoldersFra
                 break;
 
             case R.id.action_dropbox_logout:
-                deleteToken();
+                revokeToken();
                 updateAuthMenuItem();
                 break;
         }
