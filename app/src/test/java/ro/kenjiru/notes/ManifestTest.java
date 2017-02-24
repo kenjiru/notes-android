@@ -3,7 +3,6 @@ package ro.kenjiru.notes;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -11,9 +10,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
@@ -30,39 +26,44 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class ManifestTest {
-
-    @Ignore
     @Test
-    // FIXME Implement a proper test
-    public void readObject() {
-        XStream xStream = new XStream(new StaxDriver());
-        xStream.processAnnotations(Manifest.class);
-        xStream.processAnnotations(NoteEntry.class);
+    public void readFromXmlString() {
+        String xmlStr = "<?xml version=\"1.0\" ?><sync revision=\"0\" server-id=\"42323b80-4c53-4737-a81f-f8b40ee4a2fd\"><note id=\"d21223a1-c8df-4f30-9ee7-b344657d68d6\" rev=\"0\"></note><note id=\"e04fdb88-189d-498f-9b8b-d97f955153f0\" rev=\"1\"></note><note id=\"8141e855-89e7-42e0-851a-fc2d9d4b8495\" rev=\"2\"></note></sync>\n";
+        Manifest manifest = convertStringToObject(xmlStr);
 
-        try {
-            File xmlFile = new File("./manifest.xml");
-            Manifest manifest = (Manifest) xStream.fromXML(new FileInputStream(xmlFile));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        assertNotNull(manifest);
+
+        assertEquals("42323b80-4c53-4737-a81f-f8b40ee4a2fd", manifest.getServerId());
+        assertEquals(0, manifest.getRevision());
+        assertEquals(3, manifest.getNotes().size());
+
+        List<NoteEntry> notes = manifest.getNotes();
+        assertEquals("d21223a1-c8df-4f30-9ee7-b344657d68d6", notes.get(0).getId());
+        assertEquals(0, notes.get(0).getRevision());
+
+        assertEquals("e04fdb88-189d-498f-9b8b-d97f955153f0", notes.get(1).getId());
+        assertEquals(1, notes.get(1).getRevision());
+
+        assertEquals("8141e855-89e7-42e0-851a-fc2d9d4b8495", notes.get(2).getId());
+        assertEquals(2, notes.get(2).getRevision());
+
     }
 
-    @Ignore
-    @Test
-    // FIXME Implement a proper test
-    public void readFromXml() {
+    private Manifest convertStringToObject(String xmlStr) {
         XStream xStream = new XStream(new StaxDriver());
         xStream.processAnnotations(Manifest.class);
         xStream.processAnnotations(NoteEntry.class);
+        Manifest manifest = null;
 
         try {
-            String xmlStr = "";
             InputStream is = new ByteArrayInputStream(xmlStr.getBytes("UTF-16"));
 
-            Manifest manifest = (Manifest) xStream.fromXML(is);
+            manifest = (Manifest) xStream.fromXML(is);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
+        return manifest;
     }
 
     @Test
@@ -108,7 +109,7 @@ public class ManifestTest {
 
             InputSource is = new InputSource(new StringReader(xmlStr));
             dom = builder.parse(is);
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
