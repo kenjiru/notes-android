@@ -1,6 +1,7 @@
 package ro.kenjiru.notes;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.basic.DateConverter;
 import com.thoughtworks.xstream.io.xml.QNameMap;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
@@ -13,6 +14,9 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,7 +29,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class NoteTest {
     @Test
-    public void restoreFromXmlString() {
+    public void restoreFromXmlString() throws ParseException {
         String xmlStr = "<?xml version=\"1.0\" encoding=\"utf-8\"?><note version=\"0.3\" " +
                 "xmlns:link=\"http://beatniksoftware.com/tomboy/link\" " +
                 "xmlns:size=\"http://beatniksoftware.com/tomboy/size\" " +
@@ -56,11 +60,32 @@ public class NoteTest {
         assertNotNull(noteContent);
         assertEquals("0.1", noteContent.getAttribute("version"));
         assertEquals("Android buildBuild error", noteContent.getTextContent());
+
+        assertEquals(getDate("2016-11-30T00:20:40.1150460+01:00"), note.getLastChangeDate());
+        assertEquals(getDate("2016-11-30T00:20:40.1174570+01:00"), note.getLastMetadataChangeDate());
+        assertEquals(getDate("2016-11-30T00:20:06.2798990+01:00"), note.getCreateDate());
+
+        assertEquals(27, note.getCursorPosition());
+        assertEquals(29, note.getSelectionBoundPositionPosition());
+        assertEquals(450, note.getWidth());
+        assertEquals(360, note.getHeight());
+        assertEquals(0, note.getX());
+        assertEquals(0, note.getY());
+        assertEquals(false, note.isOpenOnStartup());
+    }
+
+    private Date getDate(String dateStr) throws ParseException {
+        String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSX";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        simpleDateFormat.setLenient(true);
+
+        return simpleDateFormat.parse(dateStr);
     }
 
     private Note convertStringToObject(String xmlStr) {
         XStream xStream = new XStream(new StaxDriver());
         xStream.registerConverter(new DomConverter());
+        xStream.registerConverter(new DateConverter("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSX", new String[0], true));
         xStream.processAnnotations(Note.class);
         xStream.ignoreUnknownElements();
 
