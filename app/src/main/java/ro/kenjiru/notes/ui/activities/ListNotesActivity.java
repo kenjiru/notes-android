@@ -2,10 +2,13 @@ package ro.kenjiru.notes.ui.activities;
 
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -19,6 +22,7 @@ import com.dropbox.core.v2.users.FullAccount;
 import ro.kenjiru.notes.R;
 import ro.kenjiru.notes.dropbox.DropboxActivity;
 import ro.kenjiru.notes.dropbox.DropboxClientFactory;
+import ro.kenjiru.notes.dropbox.DropboxSyncService;
 import ro.kenjiru.notes.dropbox.GetCurrentAccountTask;
 import ro.kenjiru.notes.intent.Action;
 import ro.kenjiru.notes.intent.Extra;
@@ -32,6 +36,25 @@ public class ListNotesActivity extends DropboxActivity implements ListFoldersFra
     private static final int RESULT_SETTINGS = 1;
 
     private Menu activityMenu;
+
+    private DropboxSyncService dropboxSyncService;
+    private boolean mBound = false;
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            DropboxSyncService.LocalBinder binder = (DropboxSyncService.LocalBinder) service;
+            dropboxSyncService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +73,16 @@ public class ListNotesActivity extends DropboxActivity implements ListFoldersFra
         super.onResume();
 
         updateAuthMenuItem();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
     }
 
     @Override
@@ -129,9 +162,20 @@ public class ListNotesActivity extends DropboxActivity implements ListFoldersFra
                 revokeToken();
                 updateAuthMenuItem();
                 break;
+
+            case R.id.action_dropbox_sync:
+                startSync();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startSync() {
+        Intent intent = new Intent(this, DropboxSyncService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
+        startService(intent);
     }
 
     @Override

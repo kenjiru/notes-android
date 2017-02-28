@@ -19,7 +19,12 @@
             android:value="5" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="ro.kenjiru.notes.model.Note,ro.kenjiru.notes.model.Folder,ro.kenjiru.notes.model.SpecialFolder"/>
+            android:value="ro.kenjiru.notes.model.Note,ro.kenjiru.notes.model.Folder,ro.kenjiru.notes.model.SpecialFolder" />
+
+        <service
+            android:name=".dropbox.DropboxSyncService"
+            android:description="@string/sync_service_description"
+            android:exported="false" />
 
         <activity
             android:name=".ui.activities.ListNotesActivity"

@@ -24,6 +24,7 @@
     <string name="created_folder">Create folder &lt;i>%1$s&lt;/i></string>
     <string name="delete_folder">Delete folder &lt;i>%1$s&lt;/i>?</string>
     <string name="delete_note">Delete note &lt;i>%1$s&lt;/i>?</string>
+    <string name="sync_service_description">Synchronize the notes</string>
 
     <!-- preferences -->
     <string name="pref_dropboxUser">Dropbox user</string>
@@ -35,4 +36,5 @@
     <string name="dropbox_logout">Dropbox logout</string>
     <string name="dropbox_user">pref_dropboxUser</string>
     <string name="not_logged_in">Not logged in</string>
+    <string name="dropbox_sync">Dropbox Sync</string>
 </resources>
