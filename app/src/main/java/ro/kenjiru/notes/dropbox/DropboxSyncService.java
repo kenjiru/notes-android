@@ -7,9 +7,12 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.dropbox.core.v2.users.FullAccount;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 public class DropboxSyncService extends IntentService {
+    private static final String TAG = "Notes";
     private final IBinder mBinder = new LocalBinder();
 
     public DropboxSyncService() {
@@ -25,19 +28,26 @@ public class DropboxSyncService extends IntentService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "DropboxSyncService starting", Toast.LENGTH_SHORT).show();
 
-        new GetCurrentAccountTask(DropboxClientFactory.getClient(), new GetCurrentAccountTask.Callback() {
+        new DownloadFileTask(DropboxClientFactory.getClient(), new DownloadFileTask.Callback() {
             @Override
-            public void onComplete(FullAccount result) {
-                String displayName = result.getName().getDisplayName();
+            public void onDownloadComplete(OutputStream result) {
+                ByteArrayOutputStream fileContent = (ByteArrayOutputStream) result;
 
-                Toast.makeText(DropboxSyncService.this, "Dropbox user: " + displayName, Toast.LENGTH_SHORT).show();
+                try {
+                    String fileStr = new String(fileContent.toByteArray(), "UTF-8");
+
+                    Log.i(TAG, fileStr);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onError(Exception e) {
-                Log.e(getClass().getName(), "Failed to get account details.", e);
+                Log.e(TAG, "Failed to download file.", e);
+                Toast.makeText(DropboxSyncService.this, "An error has occurred", Toast.LENGTH_SHORT).show();
             }
-        }).execute();
+        }).execute("/manifest.xml");
 
         return super.onStartCommand(intent, flags, startId);
     }
