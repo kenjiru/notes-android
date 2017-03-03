@@ -7,9 +7,11 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+
+import ro.kenjiru.notes.xml.ConversionUtils;
+import ro.kenjiru.notes.xml.Manifest;
 
 public class DropboxSyncService extends IntentService {
     private static final String TAG = "Notes";
@@ -21,7 +23,6 @@ public class DropboxSyncService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
     }
 
     @Override
@@ -30,16 +31,11 @@ public class DropboxSyncService extends IntentService {
 
         new DownloadFileTask(DropboxClientFactory.getClient(), new DownloadFileTask.Callback() {
             @Override
-            public void onDownloadComplete(OutputStream result) {
-                ByteArrayOutputStream fileContent = (ByteArrayOutputStream) result;
+            public void onDownloadComplete(ByteArrayOutputStream result) {
+                ByteArrayInputStream input = new ByteArrayInputStream(result.toByteArray());
 
-                try {
-                    String fileStr = new String(fileContent.toByteArray(), "UTF-8");
-
-                    Log.i(TAG, fileStr);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                Manifest manifest = ConversionUtils.toManifest(input);
+                Log.i(TAG, "Number of notes: " + manifest.getNotes().size());
             }
 
             @Override

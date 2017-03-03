@@ -8,17 +8,15 @@ import com.dropbox.core.v2.files.FileMetadata;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
-class DownloadFileTask extends AsyncTask<String, Void, OutputStream> {
+class DownloadFileTask extends AsyncTask<String, Void, ByteArrayOutputStream> {
 
     private final DbxClientV2 mDbxClient;
     private final Callback mCallback;
     private Exception mException;
 
     public interface Callback {
-        void onDownloadComplete(OutputStream result);
-
+        void onDownloadComplete(ByteArrayOutputStream result);
         void onError(Exception e);
     }
 
@@ -28,7 +26,7 @@ class DownloadFileTask extends AsyncTask<String, Void, OutputStream> {
     }
 
     @Override
-    protected void onPostExecute(OutputStream result) {
+    protected void onPostExecute(ByteArrayOutputStream result) {
         super.onPostExecute(result);
 
         if (mException != null) {
@@ -39,9 +37,9 @@ class DownloadFileTask extends AsyncTask<String, Void, OutputStream> {
     }
 
     @Override
-    protected OutputStream doInBackground(String... params) {
+    protected ByteArrayOutputStream doInBackground(String... params) {
         String fileName = params[0];
-        OutputStream outputStream = null;
+        ByteArrayOutputStream outputStream = null;
 
         try {
             outputStream = new ByteArrayOutputStream();
