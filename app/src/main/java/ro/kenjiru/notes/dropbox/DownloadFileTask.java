@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.FileMetadata;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -45,7 +44,7 @@ class DownloadFileTask extends AsyncTask<String, Void, ByteArrayOutputStream> {
             outputStream = new ByteArrayOutputStream();
 
             try {
-                FileMetadata metadata = mDbxClient.files().downloadBuilder(fileName).download(outputStream);
+                mDbxClient.files().downloadBuilder(fileName).download(outputStream);
             } finally {
                 outputStream.close();
             }
