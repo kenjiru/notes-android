@@ -9,8 +9,12 @@ import java.util.Date;
 
 @XStreamAlias("note")
 public class Note {
+
     @XStreamAsAttribute
     private float version;
+
+    @XStreamAlias("title")
+    private String title;
 
     @XStreamAlias("text")
     private Document text;
@@ -51,6 +55,14 @@ public class Note {
 
     public void setVersion(float version) {
         this.version = version;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Document getText() {
