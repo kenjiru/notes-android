@@ -29,4 +29,10 @@ public class ConversionUtils {
 
         return (Note) xStream.fromXML(is);
     }
+
+    public static String getNotePath(NoteEntry noteEntry) {
+        int parentFolder = (int) Math.floor(noteEntry.getRevision() / 100);
+
+        return "/" + parentFolder + "/" + noteEntry.getRevision() + "/" + noteEntry.getId() + ".note";
+    }
 }

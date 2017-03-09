@@ -3,19 +3,19 @@ package ro.kenjiru.notes.dropbox;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-
-import ro.kenjiru.notes.xml.ConversionUtils;
-import ro.kenjiru.notes.xml.Manifest;
+import ro.kenjiru.notes.async.DownloadManager;
 
 public class DropboxSyncService extends IntentService {
     private static final String TAG = "Notes";
     private final IBinder mBinder = new LocalBinder();
+    private Handler mHandler;
 
     public DropboxSyncService() {
         super("DropboxSyncService");
@@ -29,21 +29,16 @@ public class DropboxSyncService extends IntentService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "DropboxSyncService starting", Toast.LENGTH_SHORT).show();
 
-        new DownloadFileTask(DropboxClientFactory.getClient(), new DownloadFileTask.Callback() {
+        mHandler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void onDownloadComplete(ByteArrayOutputStream result) {
-                ByteArrayInputStream input = new ByteArrayInputStream(result.toByteArray());
+            public void handleMessage(Message inputMessage) {
+                String msg = (String) inputMessage.obj;
 
-                Manifest manifest = ConversionUtils.toManifest(input);
-                Log.i(TAG, "Number of notes: " + manifest.getNotes().size());
+                Log.i(TAG, "Message outside handler: " + msg);
             }
+        };
 
-            @Override
-            public void onError(Exception e) {
-                Log.e(TAG, "Failed to download file.", e);
-                Toast.makeText(DropboxSyncService.this, "An error has occurred", Toast.LENGTH_SHORT).show();
-            }
-        }).execute("/manifest.xml");
+        DownloadManager.getInstance().startSynchronization();
 
         return super.onStartCommand(intent, flags, startId);
     }
